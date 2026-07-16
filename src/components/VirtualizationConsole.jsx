@@ -158,6 +158,15 @@ export default function VirtualizationConsole({ addLog, vms, setVms }) {
     }));
   };
 
+  if (!vms || vms.length < 3) {
+    return (
+      <div className="glass-panel" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '350px', gap: '0.5rem' }}>
+        <RefreshCw className="rotate-cw" style={{ width: '24px', height: '24px', color: 'var(--neon-cyan)', animation: 'spin 1.5s linear infinite' }} />
+        <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>SYNCHRONIZING VIRTUAL SHIELD BOUNDARIES...</span>
+      </div>
+    );
+  }
+
   return (
     <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '2rem' }}>
       
