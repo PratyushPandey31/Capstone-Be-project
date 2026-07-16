@@ -5,6 +5,7 @@ import VirtualizationConsole from './components/VirtualizationConsole';
 import BackupManager from './components/BackupManager';
 import IAMConsole from './components/IAMConsole';
 import AICopilot from './components/AICopilot';
+import PitchDeckConsole from './components/PitchDeckConsole';
 
 export default function App() {
   const [eyeCare, setEyeCare] = useState(false);
@@ -1596,6 +1597,14 @@ a.click();
                 >
                   <Sparkles style={{ width: '16px', height: '16px' }} /> AI SECURITY COPILOT
                 </button>
+
+                <button 
+                  className={`cyber-btn ${activeTab === 'pitchdeck' ? 'btn-green' : ''}`}
+                  style={{ width: '100%', justifyContent: 'flex-start', border: activeTab === 'pitchdeck' ? '' : '1px solid transparent', background: activeTab === 'pitchdeck' ? 'rgba(99, 102, 241, 0.1)' : 'transparent', padding: '0.6rem 0.85rem', fontSize: '0.85rem' }}
+                  onClick={() => setActiveTab('pitchdeck')}
+                >
+                  <Presentation style={{ width: '16px', height: '16px' }} /> COMPLIANCE PITCH DECK
+                </button>
               </div>
 
               {/* Secure Audit Trail Feed Log on Sidebar */}
@@ -1984,6 +1993,11 @@ a.click();
               {activeTab === 'aicopilot' && (
                 <div className={tourStep === 6 ? 'tour-highlight' : ''}>
                   <AICopilot addLog={addLog} activeVmList={vms} activeIamPermissions={customPerms} lockdownActive={lockdown} />
+                </div>
+              )}
+              {activeTab === 'pitchdeck' && (
+                <div>
+                  <PitchDeckConsole addLog={addLog} />
                 </div>
               )}
 
