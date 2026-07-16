@@ -10,6 +10,9 @@
 
 An enterprise-grade cloud storage console designed to showcase zero-knowledge client-side encryption, bare-metal virtual compute segmentations, interactive network threat containment, and automated KMS key rotation compliance. Built on a premium, responsive **glassmorphic deep-space violet** architecture.
 
+* **Subject Domain**: Virtualization and Cloud Security
+* **Academic Mentor**: Developed under the guidance and support of **Dr. Ditixa Mehta**.
+
 ---
 
 ## 🔮 Enterprise Architectural Modules

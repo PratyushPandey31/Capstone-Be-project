@@ -481,7 +481,7 @@ END OF REPORT // SECURITY HYPERVISOR AUTOMATED AUDIT LEDGER RECEIPT
     <div>
       <span class="footer-brand">// CAPSTONE PITCH DECK PRESENTATION</span>
       <h1 style="font-size: 2.5rem; margin-top: 0.5rem; color: #a855f7;">VCS Secure Cloud Storage</h1>
-      <h3>Next-Gen Zero-Knowledge Client Cryptography</h3>
+      <h3>Subject: Virtualization and Cloud Security</h3>
       <p style="margin-top: 1.5rem;">An interactive, high-fidelity security console enforcing FIPS 140-3 boundary protections, client-side encryption, virtualization node sandboxing, and automated KMS envelope key rotations.</p>
     </div>
     
@@ -775,27 +775,27 @@ END OF REPORT // SECURITY HYPERVISOR AUTOMATED AUDIT LEDGER RECEIPT
     </div>
   </div>
 
-  <!-- Slide 10: Conclusion & Corporate Compliance -->
+  <!-- Slide 10: Conclusion & Acknowledgement -->
   <div class="slide-container" id="slide-10">
     <div>
-      <span class="footer-brand">// EVALUATION CONCLUSION</span>
-      <h1>Capstone Security Validation Summary</h1>
-      <ul>
-        <li><span class="accent">FIPS 140-3 Validated</span>: Secure client cryptographic boundaries completely verified.</li>
-        <li><span class="accent">Zero Leakage Architecture</span>: Zero exposure of plaintext payload or data encryption keys.</li>
-        <li><span class="accent">Immediate Containment</span>: Lockdown protocol stops virtual subnets and revokes tokens.</li>
-        <li><span class="accent">Compliance Exporters</span>: Built-in MS Office document generators compile records instantly.</li>
+      <span class="footer-brand">// SUBJECT: VIRTUALIZATION AND CLOUD SECURITY</span>
+      <h1>Conclusion & Acknowledgement</h1>
+      <p style="margin-top: 0.5rem; font-size: 0.95rem;">We express our sincere gratitude to <strong style="color: #67e8f9;">Dr. Ditixa Mehta</strong> for her invaluable guidance, support, and help throughout this capstone project. Her mentorship has been pivotal in steering the system design toward FIPS 140-3 compliance parameters.</p>
+      <ul style="margin-top: 0.5rem;">
+        <li><span class="accent">Zero Leakage</span>: Browser SubtleCrypto blocks plaintext key exposures.</li>
+        <li><span class="accent">Compute Separation</span>: Type-1 isolated hypervisors quarantine threats.</li>
+        <li><span class="accent">Academic Excellence</span>: Fully validates the Virtualization and Cloud Security baseline.</li>
       </ul>
     </div>
     
-    <div style="background: rgba(52, 211, 153, 0.08); border: 1px solid rgba(52, 211, 153, 0.2); padding: 0.75rem; border-radius: 6px; text-align: center;">
-      <p style="margin: 0; font-size: 0.85rem; font-family: monospace;" class="green">
-        VCS SECURE CLOUD STORAGE PITCH DECK // ACADEMIC COMPLIANCE ASSURED
+    <div style="background: rgba(52, 211, 153, 0.08); border: 1px solid rgba(52, 211, 153, 0.2); padding: 0.5rem; border-radius: 6px; text-align: center; margin-top: 0.5rem;">
+      <p style="margin: 0; font-size: 0.8rem; font-family: monospace;" class="green">
+        THANK YOU FOR YOUR SUPPORT & GUIDANCE
       </p>
     </div>
 
     <div style="display: flex; justify-content: space-between; align-items: flex-end;">
-      <span class="accent">VCS is the modern standard for secure, Zero-Knowledge cloud backup.</span>
+      <span class="accent">VCS: The Enterprise Standard for Secure Cloud Data Protection</span>
       <span class="slide-num">Slide 10 / 10</span>
     </div>
   </div>
