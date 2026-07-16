@@ -4,7 +4,9 @@ import { Presentation, ChevronLeft, ChevronRight, Download, ShieldCheck, CheckCi
 export default function PitchDeckConsole({ addLog }) {
   const [currentSlide, setCurrentSlide] = useState(1);
   const [autoRotate, setAutoRotate] = useState(true);
-  const totalSlides = 10;
+  
+  // Real-time telemetry state for Slide 7 bar chart fluctuations
+  const [barHeights, setBarHeights] = useState({ raw: 40, zip: 28, dedup: 14 });
 
   const handleNext = () => {
     setCurrentSlide(prev => (prev < totalSlides ? prev + 1 : 1));
@@ -14,7 +16,9 @@ export default function PitchDeckConsole({ addLog }) {
     setCurrentSlide(prev => (prev > 1 ? prev - 1 : totalSlides));
   };
 
-  // Auto-Rotation logic (updates every 4 seconds when activated)
+  const totalSlides = 10;
+
+  // Slide auto-rotation timer
   useEffect(() => {
     if (!autoRotate) return;
     const timer = setInterval(() => {
@@ -22,6 +26,18 @@ export default function PitchDeckConsole({ addLog }) {
     }, 4000);
     return () => clearInterval(timer);
   }, [autoRotate, currentSlide]);
+
+  // Bar chart dynamic fluctuations
+  useEffect(() => {
+    const chartInterval = setInterval(() => {
+      setBarHeights({
+        raw: Math.round(38 + Math.random() * 4),
+        zip: Math.round(26 + Math.random() * 4),
+        dedup: Math.round(12 + Math.random() * 4),
+      });
+    }, 1500);
+    return () => clearInterval(chartInterval);
+  }, []);
 
   // Re-trigger .ppt downloader
   const downloadPpt = () => {
@@ -33,8 +49,34 @@ export default function PitchDeckConsole({ addLog }) {
     }
   };
 
+  // Localized animations to prevent global CSS clashes
+  const slideStyles = `
+    @keyframes spin-local {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    @keyframes spin-back-local {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(-360deg); }
+    }
+    .rotate-slide-cw {
+      animation: spin-local 12s linear infinite;
+    }
+    .rotate-slide-ccw {
+      animation: spin-back-local 10s linear infinite;
+    }
+    .blink {
+      animation: blink-anim 1.5s infinite;
+    }
+    @keyframes blink-anim {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+  `;
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+      <style>{slideStyles}</style>
       
       {/* Top Header Row with Export Action */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
@@ -91,8 +133,12 @@ export default function PitchDeckConsole({ addLog }) {
               {/* Spinning Logo Rings */}
               <div style={{ position: 'relative', width: '80px', height: '80px' }}>
                 <svg width="80" height="80" viewBox="0 0 100 100" style={{ display: 'block' }}>
-                  <circle cx="50" cy="50" r="42" fill="none" stroke="var(--neon-cyan)" strokeWidth="2" strokeDasharray="10 5" className="rotate-cw" style={{ transformOrigin: '50px 50px' }} />
-                  <circle cx="50" cy="50" r="30" fill="none" stroke="var(--neon-gold)" strokeWidth="1.5" strokeDasharray="6 4" className="rotate-ccw" style={{ transformOrigin: '50px 50px' }} />
+                  <g className="rotate-slide-cw" style={{ transformOrigin: '50px 50px' }}>
+                    <circle cx="50" cy="50" r="42" fill="none" stroke="var(--neon-cyan)" strokeWidth="2" strokeDasharray="10 5" />
+                  </g>
+                  <g className="rotate-slide-ccw" style={{ transformOrigin: '50px 50px' }}>
+                    <circle cx="50" cy="50" r="30" fill="none" stroke="var(--neon-gold)" strokeWidth="1.5" strokeDasharray="6 4" />
+                  </g>
                   <path d="M 50 35 L 62 43 L 58 58 L 42 58 L 38 43 Z" fill="var(--neon-purple)" />
                 </svg>
               </div>
@@ -134,7 +180,7 @@ export default function PitchDeckConsole({ addLog }) {
           </div>
         )}
 
-        {/* SLIDE 3: CRYPTOGRAPHIC PIPELINE */}
+        {/* SLIDE 3: CRYPTOGRAPHIC PIPELINE (WITH LASER PULSE DOTS) */}
         {currentSlide === 3 && (
           <div>
             <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', color: 'var(--neon-purple)' }}>// SUB-SYSTEM I: CLIENT CRYPTOGRAPHY</span>
@@ -155,15 +201,22 @@ export default function PitchDeckConsole({ addLog }) {
                   <rect x="5" y="20" width="25" height="15" rx="3" fill="#120c24" stroke="var(--neon-gold)" strokeWidth="1"/>
                   <text x="17.5" y="29" textAnchor="middle" fill="var(--neon-gold)" fontSize="4.5">Password</text>
                   <path d="M 30 27 L 40 27" stroke="var(--neon-gold)" strokeWidth="0.75" />
+                  
                   <rect x="40" y="10" width="25" height="35" rx="3" fill="#120c24" stroke="var(--neon-green)" strokeWidth="1"/>
                   <text x="52.5" y="22" textAnchor="middle" fill="var(--neon-green)" fontSize="4.5">PBKDF2</text>
                   <text x="52.5" y="30" text-anchor="middle" fill="var(--neon-green)" fontSize="3">100k Iter</text>
                   <path d="M 65 27 L 75 27" stroke="var(--neon-green)" strokeWidth="0.75" />
+                  
                   <rect x="75" y="20" width="22" height="15" rx="3" fill="#120c24" stroke="var(--neon-cyan)" strokeWidth="1"/>
                   <text x="86" y="29" text-anchor="middle" fill="var(--neon-cyan)" fontSize="4.5">AES Key</text>
+
+                  {/* Flowing Laser Dot */}
+                  <circle cx="0" cy="0" r="1.5" fill="var(--neon-green)">
+                    <animateMotion dur="3s" repeatCount="indefinite" path="M 17.5 27 L 52.5 27 L 86 27" />
+                  </circle>
                 </svg>
                 <div style={{ position: 'absolute', top: '5px', right: '5px', fontSize: '0.6rem', color: 'var(--neon-green)', fontFamily: 'var(--font-mono)' }} className="blink">
-                  ● KEY SECURED
+                  ● PIPELINE ACTIVE
                 </div>
               </div>
             </div>
@@ -232,7 +285,7 @@ export default function PitchDeckConsole({ addLog }) {
                     <tr>
                       <td>Sandbox-03</td>
                       <td>Sandbox</td>
-                      <td style={{ color: 'var(--neon-red)' }}>● Isolated</td>
+                      <td style={{ color: 'var(--neon-red)' }} className="blink">● Isolated</td>
                     </tr>
                   </tbody>
                 </table>
@@ -273,7 +326,7 @@ export default function PitchDeckConsole({ addLog }) {
           </div>
         )}
 
-        {/* SLIDE 7: BACKUP RETENTION (WITH GLOWING BAR CHART) */}
+        {/* SLIDE 7: BACKUP RETENTION (WITH ROTATING/FLUCTUATING BAR CHART) */}
         {currentSlide === 7 && (
           <div>
             <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', color: 'var(--neon-purple)' }}>// SUB-SYSTEM V: STORAGE OPTIMIZATION</span>
@@ -290,17 +343,22 @@ export default function PitchDeckConsole({ addLog }) {
                 </ul>
               </div>
               <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                {/* Mini SVG Bar Chart */}
+                {/* Fluctuation SVG Bar Chart */}
                 <svg width="180" height="100" viewBox="0 0 120 70" style={{ background: 'rgba(0,0,0,0.2)', border: '1px solid var(--border-color)', borderRadius: '6px', padding: '5px' }}>
                   <line x1="20" y1="10" x2="110" y2="10" stroke="rgba(255,255,255,0.03)" strokeWidth="0.5" />
                   <line x1="20" y1="30" x2="110" y2="30" stroke="rgba(255,255,255,0.03)" strokeWidth="0.5" />
                   <line x1="20" y1="50" x2="110" y2="50" stroke="rgba(255,255,255,0.03)" strokeWidth="0.5" />
-                  <rect x="30" y="15" width="12" height="40" rx="1" fill="var(--neon-red)" opacity="0.85" style={{ filter: 'drop-shadow(0 0 3px var(--neon-red-glow))' }} />
-                  <text x="36" y="52" textAnchor="middle" fill="#fff" fontSize="5" fontWeight="bold">100%</text>
-                  <rect x="60" y="27" width="12" height="28" rx="1" fill="var(--neon-purple)" opacity="0.85" style={{ filter: 'drop-shadow(0 0 3px rgba(168, 85, 247, 0.4))' }} />
-                  <text x="66" y="52" textAnchor="middle" fill="#fff" fontSize="5" fontWeight="bold">70%</text>
-                  <rect x="90" y="41" width="12" height="14" rx="1" fill="var(--neon-green)" opacity="0.85" style={{ filter: 'drop-shadow(0 0 3px var(--neon-green-glow))' }} />
-                  <text x="96" y="52" textAnchor="middle" fill="#fff" fontSize="5" fontWeight="bold">36%</text>
+                  
+                  {/* Fluctuation bars */}
+                  <rect x="30" y={55 - barHeights.raw} width="12" height={barHeights.raw} rx="1" fill="var(--neon-red)" opacity="0.85" style={{ transition: 'height 0.8s ease, y 0.8s ease', filter: 'drop-shadow(0 0 3px var(--neon-red-glow))' }} />
+                  <text x="36" y={50 - barHeights.raw / 2} textAnchor="middle" fill="#fff" fontSize="5" fontWeight="bold">100%</text>
+                  
+                  <rect x="60" y={55 - barHeights.zip} width="12" height={barHeights.zip} rx="1" fill="var(--neon-purple)" opacity="0.85" style={{ transition: 'height 0.8s ease, y 0.8s ease', filter: 'drop-shadow(0 0 3px rgba(168, 85, 247, 0.4))' }} />
+                  <text x="66" y={50 - barHeights.zip / 2} textAnchor="middle" fill="#fff" fontSize="5" fontWeight="bold">70%</text>
+                  
+                  <rect x="90" y={55 - barHeights.dedup} width="12" height={barHeights.dedup} rx="1" fill="var(--neon-green)" opacity="0.85" style={{ transition: 'height 0.8s ease, y 0.8s ease', filter: 'drop-shadow(0 0 3px var(--neon-green-glow))' }} />
+                  <text x="96" y={50 - barHeights.dedup / 2} textAnchor="middle" fill="#fff" fontSize="5" fontWeight="bold">36%</text>
+                  
                   <text x="36" y="62" textAnchor="middle" fill="var(--text-muted)" fontSize="4.5">Raw</text>
                   <text x="66" y="62" textAnchor="middle" fill="var(--text-muted)" fontSize="4.5">Zip</text>
                   <text x="96" y="62" textAnchor="middle" fill="var(--text-muted)" fontSize="4.5">Dedup</text>
@@ -310,7 +368,7 @@ export default function PitchDeckConsole({ addLog }) {
           </div>
         )}
 
-        {/* SLIDE 8: KMS KEY ROTATION */}
+        {/* SLIDE 8: KMS KEY ROTATION (WITH AUTO ROTATING RING) */}
         {currentSlide === 8 && (
           <div>
             <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', color: 'var(--neon-purple)' }}>// SUB-SYSTEM VI: KEY ROATION</span>
@@ -328,14 +386,16 @@ export default function PitchDeckConsole({ addLog }) {
               </div>
               <div>
                 <svg width="100%" height="90" viewBox="0 0 100 100" style={{ display: 'block', margin: '0 auto' }}>
-                  <circle cx="50" cy="50" r="42" fill="none" stroke="var(--neon-cyan)" strokeWidth="1" stroke-dasharray="5 2" className="rotate-cw" style={{ transformOrigin: '50px 50px' }} />
+                  <g className="rotate-slide-cw" style={{ transformOrigin: '50px 50px' }}>
+                    <circle cx="50" cy="50" r="42" fill="none" stroke="var(--neon-cyan)" strokeWidth="1" strokeDasharray="5 2" />
+                  </g>
                   <rect x="35" y="15" width="30" height="12" rx="2" fill="#120c24" stroke="var(--neon-cyan)" strokeWidth="1" />
                   <text x="50" y="23" textAnchor="middle" fill="var(--neon-cyan)" fontSize="5" fontWeight="bold">KEK (Master)</text>
                   <rect x="35" y="44" width="30" height="12" rx="2" fill="#120c24" stroke="var(--neon-gold)" strokeWidth="1" />
                   <text x="50" y="52" text-anchor="middle" fill="var(--neon-gold)" fontSize="5" fontWeight="bold">DEK (Local)</text>
                   <rect x="30" y="72" width="40" height="12" rx="2" fill="#120c24" stroke="var(--neon-green)" strokeWidth="1" />
                   <text x="50" y="80" text-anchor="middle" fill="var(--neon-green)" fontSize="5" fontWeight="bold">Payload Block</text>
-                  <path d="M 50 27 L 50 43" stroke="var(--neon-cyan)" strokeWidth="1" stroke-dasharray="2 2" />
+                  <path d="M 50 27 L 50 43" stroke="var(--neon-cyan)" strokeWidth="1" strokeDasharray="2 2" />
                   <path d="M 50 56 L 50 71" stroke="var(--neon-gold)" strokeWidth="1" />
                 </svg>
               </div>
@@ -343,7 +403,7 @@ export default function PitchDeckConsole({ addLog }) {
           </div>
         )}
 
-        {/* SLIDE 9: AI COILOT SCANNER (WITH NEURAL NODE MAP) */}
+        {/* SLIDE 9: AI COILOT SCANNER (WITH ROTATING NEURAL NODE MAP) */}
         {currentSlide === 9 && (
           <div>
             <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', color: 'var(--neon-purple)' }}>// SUB-SYSTEM VII: AI AUDITING</span>
@@ -360,19 +420,23 @@ export default function PitchDeckConsole({ addLog }) {
                 </ul>
               </div>
               <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                {/* Mini SVG Neural connection map */}
+                {/* Rotating Neural network connection map */}
                 <svg width="180" height="100" viewBox="0 0 120 70" style={{ background: 'rgba(0,0,0,0.2)', border: '1px solid var(--border-color)', borderRadius: '6px' }}>
                   <circle cx="60" cy="35" r="25" fill="none" stroke="rgba(168, 85, 247, 0.15)" strokeWidth="0.75" />
                   <circle cx="60" cy="35" r="15" fill="none" stroke="rgba(168, 85, 247, 0.1)" strokeWidth="0.75" />
                   <circle cx="60" cy="35" r="4" fill="var(--neon-purple)" style={{ filter: 'drop-shadow(0 0 4px rgba(168, 85, 247, 0.8))' }} />
-                  <circle cx="35" cy="20" r="3" fill="var(--neon-cyan)" />
-                  <circle cx="85" cy="20" r="3" fill="var(--neon-cyan)" />
-                  <circle cx="35" cy="50" r="3" fill="var(--neon-green)" />
-                  <circle cx="85" cy="50" r="3" fill="var(--neon-red)" />
-                  <line x1="60" y1="35" x2="35" y2="20" stroke="var(--neon-purple)" strokeWidth="0.5" strokeOpacity="0.6" />
-                  <line x1="60" y1="35" x2="85" y2="20" stroke="var(--neon-purple)" strokeWidth="0.5" strokeOpacity="0.6" />
-                  <line x1="60" y1="35" x2="35" y2="50" stroke="var(--neon-purple)" strokeWidth="0.5" strokeOpacity="0.6" />
-                  <line x1="60" y1="35" x2="85" y2="50" stroke="var(--neon-purple)" strokeWidth="0.5" strokeOpacity="0.6" />
+                  
+                  {/* Orbiting group */}
+                  <g className="rotate-slide-cw" style={{ transformOrigin: '60px 35px' }}>
+                    <circle cx="35" cy="20" r="3" fill="var(--neon-cyan)" />
+                    <circle cx="85" cy="20" r="3" fill="var(--neon-cyan)" />
+                    <circle cx="35" cy="50" r="3" fill="var(--neon-green)" />
+                    <circle cx="85" cy="50" r="3" fill="var(--neon-red)" />
+                    <line x1="60" y1="35" x2="35" y2="20" stroke="var(--neon-purple)" strokeWidth="0.5" strokeOpacity="0.6" />
+                    <line x1="60" y1="35" x2="85" y2="20" stroke="var(--neon-purple)" strokeWidth="0.5" strokeOpacity="0.6" />
+                    <line x1="60" y1="35" x2="35" y2="50" stroke="var(--neon-purple)" strokeWidth="0.5" strokeOpacity="0.6" />
+                    <line x1="60" y1="35" x2="85" y2="50" stroke="var(--neon-purple)" strokeWidth="0.5" strokeOpacity="0.6" />
+                  </g>
                 </svg>
               </div>
             </div>
