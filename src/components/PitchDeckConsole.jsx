@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Presentation, ChevronLeft, ChevronRight, Download, ShieldCheck } from 'lucide-react';
+import { Presentation, ChevronLeft, ChevronRight, Download, ShieldCheck, CheckCircle2, AlertTriangle } from 'lucide-react';
 
 export default function PitchDeckConsole({ addLog }) {
   const [currentSlide, setCurrentSlide] = useState(1);
@@ -77,12 +77,12 @@ export default function PitchDeckConsole({ addLog }) {
               </p>
             </div>
             
-            <div style={{ display: 'flex', justifycontent: 'space-between', alignItems: 'center', margin: '2rem 0' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '1.5rem 0' }}>
               {/* Spinning Logo Rings */}
               <div style={{ position: 'relative', width: '80px', height: '80px' }}>
                 <svg width="80" height="80" viewBox="0 0 100 100" style={{ display: 'block' }}>
-                  <circle cx="50" cy="50" r="42" fill="none" stroke="var(--neon-cyan)" strokeWidth="2" stroke-dasharray="10 5" className="rotate-cw" style={{ transformOrigin: '50px 50px' }} />
-                  <circle cx="50" cy="50" r="30" fill="none" stroke="var(--neon-gold)" strokeWidth="1.5" stroke-dasharray="6 4" className="rotate-ccw" style={{ transformOrigin: '50px 50px' }} />
+                  <circle cx="50" cy="50" r="42" fill="none" stroke="var(--neon-cyan)" strokeWidth="2" strokeDasharray="10 5" className="rotate-cw" style={{ transformOrigin: '50px 50px' }} />
+                  <circle cx="50" cy="50" r="30" fill="none" stroke="var(--neon-gold)" strokeWidth="1.5" strokeDasharray="6 4" className="rotate-ccw" style={{ transformOrigin: '50px 50px' }} />
                   <path d="M 50 35 L 62 43 L 58 58 L 42 58 L 38 43 Z" fill="var(--neon-purple)" />
                 </svg>
               </div>
@@ -97,23 +97,27 @@ export default function PitchDeckConsole({ addLog }) {
         {/* SLIDE 2: COMPONENT COMPARISON */}
         {currentSlide === 2 && (
           <div>
-            <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', color: 'var(--neon-purple)' }}>// ARCHITECTURAL MATRIX</span>
+            <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', color: 'var(--neon-purple)' }}>// ARCHITECTURAL COMPARISON</span>
             <h2 style={{ fontSize: '1.6rem', color: 'var(--text-primary)', margin: '0.25rem 0 1rem 0' }}>Zero-Knowledge vs Standard Backups</h2>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
-              <div style={{ background: 'rgba(239, 68, 68, 0.05)', padding: '1rem', borderRadius: '8px', border: '1px solid rgba(239, 68, 68, 0.15)' }}>
-                <h4 style={{ margin: 0, color: 'var(--neon-red)' }}>Standard Cloud Architectures</h4>
-                <ul style={{ paddingLeft: '1.25rem', fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '0.5rem' }}>
-                  <li style={{ marginBottom: '0.35rem' }}>Files are uploaded in plaintext blocks to servers.</li>
-                  <li style={{ marginBottom: '0.35rem' }}>Decryption keys reside in host databases.</li>
-                  <li style={{ marginBottom: '0.35rem' }}>Keys leak inside server RAM buffers during execution.</li>
+              <div style={{ background: 'rgba(239, 68, 68, 0.04)', padding: '1rem', borderRadius: '8px', border: '1px solid rgba(239, 68, 68, 0.15)', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                <h4 style={{ margin: 0, color: 'var(--neon-red)', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                  <AlertTriangle style={{ width: '14px', height: '14px' }} /> Standard Cloud Backup
+                </h4>
+                <ul style={{ paddingLeft: '1.25rem', fontSize: '0.82rem', color: 'var(--text-secondary)', margin: 0, display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
+                  <li>Data uploaded in plaintext to servers.</li>
+                  <li>Decryption keys stored in server databases.</li>
+                  <li>Keys exposed in server RAM during operations.</li>
                 </ul>
               </div>
-              <div style={{ background: 'rgba(52, 211, 153, 0.05)', padding: '1rem', borderRadius: '8px', border: '1px solid rgba(52, 211, 153, 0.15)' }}>
-                <h4 style={{ margin: 0, color: 'var(--neon-green)' }}>VCS Zero-Knowledge Vault</h4>
-                <ul style={{ paddingLeft: '1.25rem', fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '0.5rem' }}>
-                  <li style={{ marginBottom: '0.35rem' }}>Files are encrypted locally before S3 transit.</li>
-                  <li style={{ marginBottom: '0.35rem' }}>Decryption keys never traverse network sockets.</li>
-                  <li style={{ marginBottom: '0.35rem' }}>Host administrators have zero visibility into content.</li>
+              <div style={{ background: 'rgba(52, 211, 153, 0.04)', padding: '1rem', borderRadius: '8px', border: '1px solid rgba(52, 211, 153, 0.15)', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                <h4 style={{ margin: 0, color: 'var(--neon-green)', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                  <CheckCircle2 style={{ width: '14px', height: '14px' }} /> VCS Zero-Knowledge Vault
+                </h4>
+                <ul style={{ paddingLeft: '1.25rem', fontSize: '0.82rem', color: 'var(--text-secondary)', margin: 0, display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
+                  <li>Files encrypted locally in browser memory.</li>
+                  <li>Encryption keys never traverse the network.</li>
+                  <li>Server only stores scrambled ciphertext chunks.</li>
                 </ul>
               </div>
             </div>
@@ -125,7 +129,7 @@ export default function PitchDeckConsole({ addLog }) {
           <div>
             <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', color: 'var(--neon-purple)' }}>// SUB-SYSTEM I: CLIENT CRYPTOGRAPHY</span>
             <h2 style={{ fontSize: '1.6rem', color: 'var(--text-primary)', margin: '0.25rem 0 1rem 0' }}>Web Crypto subtle API Pipeline</h2>
-            <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '1.5rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 0.9fr', gap: '1.5rem' }}>
               <div>
                 <ul style={{ paddingLeft: '1.25rem', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
                   <li style={{ marginBottom: '0.5rem' }}>
@@ -134,24 +138,23 @@ export default function PitchDeckConsole({ addLog }) {
                   <li style={{ marginBottom: '0.5rem' }}>
                     <span style={{ color: 'var(--neon-cyan)', fontWeight: 'bold' }}>AES-256-GCM Blocks</span>: Hardware-accelerated local block cipher encrypts chunks natively in browser memory.
                   </li>
-                  <li style={{ marginBottom: '0.5rem' }}>
-                    <span style={{ color: 'var(--neon-cyan)', fontWeight: 'bold' }}>SHA-256 Integrity Digests</span>: Computes unique checksums to verify tamper-detection states.
-                  </li>
                 </ul>
               </div>
-              <div style={{ background: 'rgba(0,0,0,0.2)', padding: '1rem', borderRadius: '8px', border: '1px solid var(--border-color)', textAlign: 'center' }}>
+              <div style={{ background: 'rgba(0,0,0,0.2)', padding: '1rem', borderRadius: '8px', border: '1px solid var(--border-color)', textAlign: 'center', position: 'relative' }}>
                 <svg width="100%" height="80" viewBox="0 0 100 60">
                   <rect x="5" y="20" width="25" height="15" rx="3" fill="#120c24" stroke="var(--neon-gold)" strokeWidth="1"/>
-                  <text x="17.5" y="29" textAnchor="middle" fill="var(--neon-gold)" fontSize="4">Input Pass</text>
+                  <text x="17.5" y="29" textAnchor="middle" fill="var(--neon-gold)" fontSize="4.5">Password</text>
                   <path d="M 30 27 L 40 27" stroke="var(--neon-gold)" strokeWidth="0.75" />
                   <rect x="40" y="10" width="25" height="35" rx="3" fill="#120c24" stroke="var(--neon-green)" strokeWidth="1"/>
-                  <text x="52.5" y="22" textAnchor="middle" fill="var(--neon-green)" fontSize="4">PBKDF2</text>
+                  <text x="52.5" y="22" textAnchor="middle" fill="var(--neon-green)" fontSize="4.5">PBKDF2</text>
                   <text x="52.5" y="30" text-anchor="middle" fill="var(--neon-green)" fontSize="3">100k Iter</text>
                   <path d="M 65 27 L 75 27" stroke="var(--neon-green)" strokeWidth="0.75" />
                   <rect x="75" y="20" width="22" height="15" rx="3" fill="#120c24" stroke="var(--neon-cyan)" strokeWidth="1"/>
-                  <text x="86" y="29" text-anchor="middle" fill="var(--neon-cyan)" fontSize="4">AES Key</text>
+                  <text x="86" y="29" text-anchor="middle" fill="var(--neon-cyan)" fontSize="4.5">AES Key</text>
                 </svg>
-                <p style={{ fontSize: '0.75rem', margin: '0.5rem 0 0 0', color: 'var(--text-muted)' }}>Local Crypto Pipeline</p>
+                <div style={{ position: 'absolute', top: '5px', right: '5px', fontSize: '0.6rem', color: 'var(--neon-green)', fontFamily: 'var(--font-mono)' }} className="blink">
+                  ● KEY SECURED
+                </div>
               </div>
             </div>
           </div>
@@ -170,12 +173,9 @@ export default function PitchDeckConsole({ addLog }) {
                   </li>
                   <li style={{ marginBottom: '0.5rem' }}>
                     <span style={{ color: 'var(--neon-gold)', fontWeight: 'bold' }}>TOTP 2FA Verification</span>: Google Authenticator TOTP token challenges are refreshed on 30-second cycles.</li>
-                  <li style={{ marginBottom: '0.5rem' }}>
-                    <span style={{ color: 'var(--neon-gold)', fontWeight: 'bold' }}>Salted Key Digests</span>: Passwords are encrypted as SHA-256 digests prior to gateway checks, shielding against credentials leakage.
-                  </li>
                 </ul>
               </div>
-              <div style={{ background: 'rgba(0,0,0,0.2)', padding: '1rem', borderRadius: '8px', border: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{ background: 'rgba(0,0,0,0.2)', padding: '1.2rem', borderRadius: '8px', border: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
                 <ShieldCheck style={{ width: '40px', height: '40px', color: 'var(--neon-gold)', filter: 'drop-shadow(0 0 5px rgba(251, 191, 36, 0.4))' }} />
                 <span style={{ fontSize: '0.85rem', color: 'var(--neon-gold)', fontWeight: 'bold', marginTop: '0.5rem', fontFamily: 'var(--font-mono)' }}>MFA SECURED</span>
               </div>
@@ -197,9 +197,6 @@ export default function PitchDeckConsole({ addLog }) {
                   <li style={{ marginBottom: '0.5rem' }}>
                     <span style={{ color: 'var(--neon-green)', fontWeight: 'bold' }}>Subnet Quarantines</span>: Toggling quarantine sandbox (VM-3) drops external routing access immediately.
                   </li>
-                  <li style={{ marginBottom: '0.5rem' }}>
-                    <span style={{ color: 'var(--neon-green)', fontWeight: 'bold' }}>Real-time Resource Monitors</span>: Tracks CPU/RAM logs to warn of potential host service exhaustion vectors.
-                  </li>
                 </ul>
               </div>
               <div style={{ background: 'rgba(0,0,0,0.2)', padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
@@ -215,17 +212,17 @@ export default function PitchDeckConsole({ addLog }) {
                     <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.03)' }}>
                       <td>Web-Server</td>
                       <td>Type-1</td>
-                      <td style={{ color: 'var(--neon-green)' }}>Standard</td>
+                      <td style={{ color: 'var(--neon-green)' }}>● Active</td>
                     </tr>
                     <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.03)' }}>
                       <td>Secure DB</td>
                       <td>Type-1</td>
-                      <td style={{ color: 'var(--neon-green)' }}>Standard</td>
+                      <td style={{ color: 'var(--neon-green)' }}>● Active</td>
                     </tr>
                     <tr>
                       <td>Sandbox-03</td>
                       <td>Sandbox</td>
-                      <td style={{ color: 'var(--neon-red)' }}>Quarantine</td>
+                      <td style={{ color: 'var(--neon-red)' }}>● Isolated</td>
                     </tr>
                   </tbody>
                 </table>
@@ -248,9 +245,6 @@ export default function PitchDeckConsole({ addLog }) {
                   <li style={{ marginBottom: '0.5rem' }}>
                     <span style={{ color: 'var(--neon-cyan)', fontWeight: 'bold' }}>DDoS Rate-Limits</span>: Edge controls scrub volumetric DDoS flooding.
                   </li>
-                  <li style={{ marginBottom: '0.5rem' }}>
-                    <span style={{ color: 'var(--neon-cyan)', fontWeight: 'bold' }}>Port Scan Knocking Block</span>: Quarantines IPs attempting Recon port scans.
-                  </li>
                 </ul>
               </div>
               <div>
@@ -269,28 +263,38 @@ export default function PitchDeckConsole({ addLog }) {
           </div>
         )}
 
-        {/* SLIDE 7: BACKUP RETENTION */}
+        {/* SLIDE 7: BACKUP RETENTION (WITH GLOWING BAR CHART) */}
         {currentSlide === 7 && (
           <div>
             <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', color: 'var(--neon-purple)' }}>// SUB-SYSTEM V: STORAGE OPTIMIZATION</span>
             <h2 style={{ fontSize: '1.6rem', color: 'var(--text-primary)', margin: '0.25rem 0 1rem 0' }}>Scheduled Backup & Deduplication</h2>
-            <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '1.5rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 0.9fr', gap: '1.5rem' }}>
               <div>
                 <ul style={{ paddingLeft: '1.25rem', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
                   <li style={{ marginBottom: '0.5rem' }}>
-                    <span style={{ color: 'var(--neon-green)', fontWeight: 'bold' }}>Automated Retention Cron</span>: Trigger scheduled checks locally without background socket delays.
+                    <span style={{ color: 'var(--neon-green)', fontWeight: 'bold' }}>De-duplication</span>: Hashes file byte segments using SHA-256 to skip uploading identical file blocks.
                   </li>
                   <li style={{ marginBottom: '0.5rem' }}>
-                    <span style={{ color: 'var(--neon-green)', fontWeight: 'bold' }}>Cryptographic Deduplication</span>: Hashes file byte segments using SHA-256 to skip uploading identical file blocks.
-                  </li>
-                  <li style={{ marginBottom: '0.5rem' }}>
-                    <span style={{ color: 'var(--neon-green)', fontWeight: 'bold' }}>Payload Compression</span>: Encapsulates files inside local ZIP blocks, yielding an average <strong>63.4%</strong> space reduction.
+                    <span style={{ color: 'var(--neon-green)', fontWeight: 'bold' }}>Compression</span>: Yields an average <strong>63.4%</strong> space reduction.
                   </li>
                 </ul>
               </div>
-              <div style={{ background: 'rgba(0,0,0,0.2)', padding: '1rem', borderRadius: '8px', border: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                <span style={{ fontSize: '2.2rem', color: 'var(--neon-green)', fontWeight: 'bold' }}>63.4%</span>
-                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)', marginTop: '0.25rem' }}>DEDUPLICATION SAVINGS</span>
+              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                {/* Mini SVG Bar Chart */}
+                <svg width="180" height="100" viewBox="0 0 120 70" style={{ background: 'rgba(0,0,0,0.2)', border: '1px solid var(--border-color)', borderRadius: '6px', padding: '5px' }}>
+                  <line x1="20" y1="10" x2="110" y2="10" stroke="rgba(255,255,255,0.03)" strokeWidth="0.5" />
+                  <line x1="20" y1="30" x2="110" y2="30" stroke="rgba(255,255,255,0.03)" strokeWidth="0.5" />
+                  <line x1="20" y1="50" x2="110" y2="50" stroke="rgba(255,255,255,0.03)" strokeWidth="0.5" />
+                  <rect x="30" y="15" width="12" height="40" rx="1" fill="var(--neon-red)" opacity="0.85" style={{ filter: 'drop-shadow(0 0 3px var(--neon-red-glow))' }} />
+                  <text x="36" y="52" textAnchor="middle" fill="#fff" fontSize="5" fontWeight="bold">100%</text>
+                  <rect x="60" y="27" width="12" height="28" rx="1" fill="var(--neon-purple)" opacity="0.85" style={{ filter: 'drop-shadow(0 0 3px rgba(168, 85, 247, 0.4))' }} />
+                  <text x="66" y="52" textAnchor="middle" fill="#fff" fontSize="5" fontWeight="bold">70%</text>
+                  <rect x="90" y="41" width="12" height="14" rx="1" fill="var(--neon-green)" opacity="0.85" style={{ filter: 'drop-shadow(0 0 3px var(--neon-green-glow))' }} />
+                  <text x="96" y="52" textAnchor="middle" fill="#fff" fontSize="5" fontWeight="bold">36%</text>
+                  <text x="36" y="62" textAnchor="middle" fill="var(--text-muted)" fontSize="4.5">Raw</text>
+                  <text x="66" y="62" textAnchor="middle" fill="var(--text-muted)" fontSize="4.5">Zip</text>
+                  <text x="96" y="62" textAnchor="middle" fill="var(--text-muted)" fontSize="4.5">Dedup</text>
+                </svg>
               </div>
             </div>
           </div>
@@ -310,9 +314,6 @@ export default function PitchDeckConsole({ addLog }) {
                   <li style={{ marginBottom: '0.5rem' }}>
                     <span style={{ color: 'var(--neon-cyan)', fontWeight: 'bold' }}>Automated Key Rotation</span>: Shifts key rings, issuing new master ARNs and re-encrypting local DEK envelopes.
                   </li>
-                  <li style={{ marginBottom: '0.5rem' }}>
-                    <span style={{ color: 'var(--neon-cyan)', fontWeight: 'bold' }}>Telemetry Entropy Logs</span>: Tracks randomness levels of keys to verify cryptographic strength bounds.
-                  </li>
                 </ul>
               </div>
               <div>
@@ -321,9 +322,9 @@ export default function PitchDeckConsole({ addLog }) {
                   <rect x="35" y="15" width="30" height="12" rx="2" fill="#120c24" stroke="var(--neon-cyan)" strokeWidth="1" />
                   <text x="50" y="23" textAnchor="middle" fill="var(--neon-cyan)" fontSize="5" fontWeight="bold">KEK (Master)</text>
                   <rect x="35" y="44" width="30" height="12" rx="2" fill="#120c24" stroke="var(--neon-gold)" strokeWidth="1" />
-                  <text x="50" y="52" textAnchor="middle" fill="var(--neon-gold)" fontSize="5" fontWeight="bold">DEK (Local)</text>
+                  <text x="50" y="52" text-anchor="middle" fill="var(--neon-gold)" fontSize="5" fontWeight="bold">DEK (Local)</text>
                   <rect x="30" y="72" width="40" height="12" rx="2" fill="#120c24" stroke="var(--neon-green)" strokeWidth="1" />
-                  <text x="50" y="80" textAnchor="middle" fill="var(--neon-green)" fontSize="5" fontWeight="bold">Payload Block</text>
+                  <text x="50" y="80" text-anchor="middle" fill="var(--neon-green)" fontSize="5" fontWeight="bold">Payload Block</text>
                   <path d="M 50 27 L 50 43" stroke="var(--neon-cyan)" strokeWidth="1" stroke-dasharray="2 2" />
                   <path d="M 50 56 L 50 71" stroke="var(--neon-gold)" strokeWidth="1" />
                 </svg>
@@ -332,28 +333,37 @@ export default function PitchDeckConsole({ addLog }) {
           </div>
         )}
 
-        {/* SLIDE 9: AI COILOT SCANNER */}
+        {/* SLIDE 9: AI COILOT SCANNER (WITH NEURAL NODE MAP) */}
         {currentSlide === 9 && (
           <div>
             <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', color: 'var(--neon-purple)' }}>// SUB-SYSTEM VII: AI AUDITING</span>
             <h2 style={{ fontSize: '1.6rem', color: 'var(--text-primary)', margin: '0.25rem 0 1rem 0' }}>AI Security Copilot & Heuristics</h2>
-            <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '1.5rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 0.9fr', gap: '1.5rem' }}>
               <div>
                 <ul style={{ paddingLeft: '1.25rem', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
                   <li style={{ marginBottom: '0.5rem' }}>
-                    <span style={{ color: 'var(--neon-purple)', fontWeight: 'bold' }}>Gemini LLM Audit Connector</span>: Passes active policy parameters to Gemini models to generate code recommendation reviews.
+                    <span style={{ color: 'var(--neon-purple)', fontWeight: 'bold' }}>Gemini Audit Connector</span>: Passes active policy parameters to Gemini models to generate code recommendation reviews.
                   </li>
                   <li style={{ marginBottom: '0.5rem' }}>
                     <span style={{ color: 'var(--neon-purple)', fontWeight: 'bold' }}>Local Heuristics Engine</span>: Checks for security vulnerabilities (e.g. wildcard permissions, missing quarantines).
                   </li>
-                  <li style={{ marginBottom: '0.5rem' }}>
-                    <span style={{ color: 'var(--neon-purple)', fontWeight: 'bold' }}>Dynamic Scanning Radar</span>: Provides glowing radar visual sweeps during active audit cycles.
-                  </li>
                 </ul>
               </div>
-              <div style={{ background: 'rgba(0,0,0,0.2)', padding: '1rem', borderRadius: '8px', border: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                <ShieldCheck style={{ width: '40px', height: '40px', color: 'var(--neon-purple)', filter: 'drop-shadow(0 0 5px rgba(168, 85, 247, 0.4))' }} />
-                <span style={{ fontSize: '0.85rem', color: 'var(--neon-purple)', fontWeight: 'bold', marginTop: '0.5rem', fontFamily: 'var(--font-mono)' }}>AI SEC SCANNER</span>
+              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                {/* Mini SVG Neural connection map */}
+                <svg width="180" height="100" viewBox="0 0 120 70" style={{ background: 'rgba(0,0,0,0.2)', border: '1px solid var(--border-color)', borderRadius: '6px' }}>
+                  <circle cx="60" cy="35" r="25" fill="none" stroke="rgba(168, 85, 247, 0.15)" strokeWidth="0.75" />
+                  <circle cx="60" cy="35" r="15" fill="none" stroke="rgba(168, 85, 247, 0.1)" strokeWidth="0.75" />
+                  <circle cx="60" cy="35" r="4" fill="var(--neon-purple)" style={{ filter: 'drop-shadow(0 0 4px rgba(168, 85, 247, 0.8))' }} />
+                  <circle cx="35" cy="20" r="3" fill="var(--neon-cyan)" />
+                  <circle cx="85" cy="20" r="3" fill="var(--neon-cyan)" />
+                  <circle cx="35" cy="50" r="3" fill="var(--neon-green)" />
+                  <circle cx="85" cy="50" r="3" fill="var(--neon-red)" />
+                  <line x1="60" y1="35" x2="35" y2="20" stroke="var(--neon-purple)" strokeWidth="0.5" strokeOpacity="0.6" />
+                  <line x1="60" y1="35" x2="85" y2="20" stroke="var(--neon-purple)" strokeWidth="0.5" strokeOpacity="0.6" />
+                  <line x1="60" y1="35" x2="35" y2="50" stroke="var(--neon-purple)" strokeWidth="0.5" strokeOpacity="0.6" />
+                  <line x1="60" y1="35" x2="85" y2="50" stroke="var(--neon-purple)" strokeWidth="0.5" strokeOpacity="0.6" />
+                </svg>
               </div>
             </div>
           </div>
@@ -380,7 +390,7 @@ export default function PitchDeckConsole({ addLog }) {
             
             <div style={{ background: 'rgba(52, 211, 153, 0.08)', border: '1px solid rgba(52, 211, 153, 0.2)', padding: '0.5rem 1rem', borderRadius: '6px', textAlign: 'center', marginTop: '0.75rem' }}>
               <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', color: 'var(--neon-green)', fontWeight: 'bold', letterSpacing: '0.1em' }}>
-                THANK YOU FOR YOUR VALUABLE MENTORSHIP & SUPPORT
+                THANK YOU FOR YOUR MENTORSHIP & SUPPORT
               </span>
             </div>
           </div>
