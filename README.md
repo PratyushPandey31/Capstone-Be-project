@@ -1,49 +1,47 @@
-# 🛡️ VCS Secure Cloud Backup & Virtualization Console
+# 🛡️ VCS Secure Cloud Backup & Virtualization Control Center
 
-🚀 **Production Live Deployment URL**: **[https://pratyush-secure-backup.vercel.app](https://pratyush-secure-backup.vercel.app)**
+🚀 **Production Live Deployment**: **[https://pratyush-secure-backup.vercel.app](https://pratyush-secure-backup.vercel.app)**
 
-[![FIPS 140-3 Compliant](https://img.shields.io/badge/Security-FIPS%20140--3%20Verified-blueviolet?style=for-the-badge&logo=shield)](https://github.com/)
-[![React 18](https://img.shields.io/badge/Frontend-React%2018%20%2B%20Vite-61DAFB?style=for-the-badge&logo=react)](https://github.com/)
-[![Cryptography](https://img.shields.io/badge/Algorithms-AES--256--GCM%20%7C%20PBKDF2-39ff14?style=for-the-badge)](https://github.com/)
-[![Vercel Status](https://img.shields.io/badge/Hosting-Vercel%20Production-000000?style=for-the-badge&logo=vercel)](https://github.com/)
+[![FIPS 140-3 Compliance](https://img.shields.io/badge/Security-FIPS%20140--3%20Verified-blueviolet?style=for-the-badge&logo=shield)](https://github.com/)
+[![React 18 Engine](https://img.shields.io/badge/Frontend-React%2018%20%2B%20Vite-61DAFB?style=for-the-badge&logo=react)](https://github.com/)
+[![Web Crypto API](https://img.shields.io/badge/Cryptography-Web%20Crypto%20API-39ff14?style=for-the-badge)](https://github.com/)
+[![Vercel Deployment](https://img.shields.io/badge/Hosting-Vercel%20Production-000000?style=for-the-badge&logo=vercel)](https://github.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-purple?style=for-the-badge)](https://github.com/)
 
-An interactive, high-fidelity security control center demonstrating enterprise-grade zero-knowledge cloud backups, virtual compute isolation, real-time telemetry, and AI-assisted compliance analysis. Built with a **luxury deep-space violet glassmorphism** design system.
-
----
-
-## 🔮 Luxury Glassmorphic Design System
-
-To ensure a state-of-the-art visual aesthetic, the interface utilizes custom dark-mode tokens and neon accent colors:
-* **Glassmorphic Panels**: Styled with a translucent backdrop blur (`backdrop-filter: blur(12px)`), dark borders (`border: 1px solid rgba(255,255,255,0.06)`), and deep violet radial glows.
-* **Double Contra-Rotating Concentric Rings Logo**: The header and entrance gateways feature concentric SVG rings spinning in opposite directions (`rotate-cw` and `rotate-ccw`) around a central locked shield.
-* **Retina Shield Eye Care Filter**: Toggling the blue light shield applies a warm sepia overlay (`sepia(0.3) brightness(0.85)`), dims neon highlights, and pauses glowing grid lines to prevent eye strain.
+An enterprise-grade cloud storage console designed to showcase zero-knowledge client-side encryption, bare-metal virtual compute segmentations, interactive network threat containment, and automated KMS key rotation compliance. Built on a premium, responsive **glassmorphic deep-space violet** architecture.
 
 ---
 
-## 🧠 AI-Powered Audit Copilot
+## 🔮 Enterprise Architectural Modules
 
-The **AI Security Copilot** card provides real-time infrastructure scans:
-1. **Gemini Live API Integration**: Input a Gemini API Key to compile active IAM JSON policies, VM lists, and quarantine logs, dispatching them to the live Gemini model (`gemini-2.5-flash`) for advice.
-2. **Local Heuristics Fallback**: Without an API key, the dashboard runs a local heuristics engine that parses active permission parameters (checking for wildcard access, ransomware risk tags, and sandboxed ports) to generate dynamic rating scores.
-3. **Animated Radar Cone**: Sweeps a radial gradient light cone across the interface during active audit cycles to indicate background analysis.
+### 1. Zero-Knowledge Cryptographic Vault
+* **Approved Algorithms**: Utilizes high-performance **AES-256-GCM** (Galois/Counter Mode) block encryption running natively inside the browser via the `SubtleCrypto` library.
+* **Key Derivation (KDF)**: Stretch client passwords using **PBKDF2-HMAC-SHA256** with **100,000 iterations** and cryptographically secure random salts.
+* **Integrity Audit**: Computes SHA-256 hash digests of raw payloads before upload and compares them post-decryption to enforce tamper-detection bounds.
 
----
+### 2. KMS Envelope Key Rotation
+* **Key Hierarchy**: Visualizes the **Envelope Encryption** structure, where a master Key Encryption Key (KEK) wraps and protects a local Data Encryption Key (DEK).
+* **Automated Rotation**: Shuffling multi-region key rings generates new KEK ARNs and triggers background re-encryption of data keys.
+* **Policy Compiler**: Attach granular role permissions (Admin, Operator, Auditor, Viewer) that compile into cloud-compliant IAM JSON policy statements in real-time.
 
-## 📊 Real-Time Telemetry & Dynamic Charts
+### 3. Virtualization Node Management & WAF
+* **Compute Sandboxing**: Manage bare-metal hypervisor virtual machines. Configure Type-1 physical isolation versus container sandboxing.
+* **Network Ingress Visualizer**: Real-time SVG packet lines mapping routing paths from local gateways through WAF proxies to secure DB clusters.
+* **Threat Mitigation Engine**: Simulate and isolate live network attacks including DDoS floods, SQL injection query parameters, and port scan knock probes.
+* **Emergency Lockdown Protocol**: Revokes all programmatic keys and cuts compute node subnets instantly.
 
-Features four distinct animated SVG charting consoles:
-* **Line Chart 1: Payload Throughput**: Renders dynamic uploads shifting every 2 seconds, filled with a semi-transparent green linear gradient and a pulsing locator dot.
-* **Line Chart 2: KMS Key Entropy**: Fluctuates key randomness in real-time, plotting entropy values up to 8.00 bits with a cyan gradient fill.
-* **Doughnut Chart: Threat Vector Mitigation**: Breaks down blocked ingress alerts (DDoS, SQL Injection, Port Scans).
-* **Bar Chart: Regional Replication Sync**: Tracks synchronization percentages across global server segments.
+### 4. AI Compliance Copilot
+* **Gemini LLM Audit**: Paste a Gemini API Key to run automated cloud security evaluations, transmitting policy structures to the live model for remediation steps.
+* **Local Heuristic Scans**: Without an API key, a local static rule scanner checks for wildcard access configurations and unsandboxed VM status.
+* **SVG Radar Scan Sweep**: Displays an animated radial radar cone rotating across concentric circles during audit execution.
 
 ---
 
 ## 📝 Document Exporters (.doc & .ppt)
 
-Enables users to download formatted presentation slides and reports natively in the browser without server dependencies:
-* **MS Word Compliance Report (`.doc`)**: Generates structured tables documenting cryptographic boundaries, FIPS controls, VM addresses, and audit logs using a word-compatible HTML template.
-* **MS PowerPoint Pitch Deck (`.ppt`)**: Constructs an interactive, keyboard-navigable 5-slide presentation styled in violet glassmorphism detailing the Capstone project.
+Downloads formatted slideshow presentations and reports directly from browser memory:
+* **MS Word Compliance Report (`.doc`)**: Formats tables detailing cryptographic boundaries, active IAM policy rules, VM status, and security logs with inline SVG charts.
+* **MS PowerPoint Pitch Deck (`.ppt`)**: Generates an interactive, keyboard-navigable 7-slide presentation styled in violet glassmorphism describing the Capstone architecture.
 
 ---
 
@@ -70,9 +68,18 @@ graph TD
 
 ---
 
-## 🛠️ Installation & Execution
+## 🔒 Corporate Security Principles Met
 
-To run this application locally:
+* **Least Privilege Enforcement**: RBAC configurations prevent non-admin scopes from executing master key rotations or VM status changes.
+* **Separation of Duties**: Built-in Auditor warnings alert teams if compliance auditors request decryption rights (`kms:Decrypt`) that bypass read-only bounds.
+* **Ransomware WORM Immutability**: Implements automated retention crons and denies object deletes (`s3:DeleteObject`) by default to protect backups.
+* **Retina Shield mode**:Dimmed glow filters protect compliance officers from visual fatigue during long monitoring cycles.
+
+---
+
+## 🛠️ Quick Installation Guide
+
+To run this console locally:
 
 1. **Clone the repository**:
    ```bash
@@ -80,12 +87,12 @@ To run this application locally:
    cd Capstone-Be-project
    ```
 
-2. **Install node dependencies**:
+2. **Install dependencies**:
    ```bash
    npm install
    ```
 
-3. **Launch local dev server**:
+3. **Launch the local development server**:
    ```bash
    npm run dev
    ```
