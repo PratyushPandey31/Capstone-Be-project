@@ -29,7 +29,7 @@ export default function App() {
 
   // Registered user base mock
   const [registeredUsers, setRegisteredUsers] = useState([
-    { email: 'admin@vcs-backup.sec', passwordHash: '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918' } // SHA256 of 'SuperSecretP@ss123!'
+    { email: 'admin@vcs-backup.sec', passwordHash: '645fb069eb240e191b60cda163e1334230e86e255d8c4259154ab912e6d8590c' } // SHA256 of 'SuperSecretP@ss123!'
   ]);
 
   // Dashboard general state
