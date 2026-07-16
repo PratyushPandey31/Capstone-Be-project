@@ -13,7 +13,7 @@ An interactive, high-fidelity security dashboard designed to demonstrate enterpr
 
 ### 1. Multi-Factor Authentication Gateway
 * **Client-Side Hashing**: User credentials are validated using cryptographic hashing (SHA-256) prior to session verification.
-* **Password Strength Entropy Meter**: Evaluates character diversity, length, and entropy requirements.
+* **Password Strength Entropy Meter**: Evaluates character diversity, length, and entropy requirements in real-time.
 * **2FA TOTP Simulator**: Generates rolling 6-digit tokens (Time-based One-Time Passwords) with a 30-second decay timer and mock QR code integration.
 
 ### 2. Client-Side Cryptographic Vault
@@ -30,10 +30,15 @@ An interactive, high-fidelity security dashboard designed to demonstrate enterpr
 * **Retention and Cron Policies**: Set automated backup cron schedules and target scopes.
 * **Compression & Deduplication Analytics**: Tracks disk space savings by comparing SHA-256 block chunk hashes and applying compression ratios.
 
-### 5. IAM Policy Compiler
-* **Dynamic Role Preset Matrix**: Configure RBAC access limits for Admins, Operators, Auditors, and Viewers.
+### 5. IAM Policy & Key Rotation Engine
+* **Granular Role Matrix**: Predefined roles (Admins, Operators, Auditors, Viewers) mapping granular policies.
+* **KMS Key Rotation Console**: Interactive key rotation panel visualizing envelope wrapping (KEK protecting DEK) with contra-rotating animations.
 * **JSON Policy Generator**: Compiles cloud-compliant IAM JSON policy statements reflecting checked permissions on the fly.
-* **Access Credentials Manager**: Issues programmatic access keys and provides instant quarantine/revocation controls.
+* **Credentials Manager**: Issues API access credentials with instant revocation switches.
+
+### 6. Security Audit Exporter & Telemetry
+* **Real-Time Telemetry Line Chart**: Visualizes live rolling network payload throughput shifting dynamically every 2 seconds, complete with a leading pulsing locator dot indicator.
+* **Audit Report Exporter**: Instantly generates and compiles current virtualization metrics, deduplication metrics, key status, and the latest 50 logs into a formatted `.txt` security audit report.
 
 ---
 

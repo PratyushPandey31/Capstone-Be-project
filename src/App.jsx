@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Shield, Lock, Unlock, Database, Cpu, Terminal, LayoutDashboard, Settings, AlertTriangle, AlertOctagon, HelpCircle, CheckCircle2, UserPlus, Key, QrCode, Play, ChevronRight, X, Eye, EyeOff } from 'lucide-react';
+import { Shield, Lock, Unlock, Database, Cpu, Terminal, LayoutDashboard, Settings, AlertTriangle, AlertOctagon, HelpCircle, CheckCircle2, UserPlus, Key, QrCode, Play, ChevronRight, X, Eye, EyeOff, Download } from 'lucide-react';
 import CryptoLab from './components/CryptoLab';
 import VirtualizationConsole from './components/VirtualizationConsole';
 import BackupManager from './components/BackupManager';
@@ -57,6 +57,80 @@ export default function App() {
   // Guided Walkthrough Tour State
   const [tourStep, setTourStep] = useState(0); // 0 = inactive, 1..5 = active steps
   const [tourCompleted, setTourCompleted] = useState(false);
+
+  // Real-time rolling chart telemetry state
+  const [rollingData, setRollingData] = useState([85, 95, 70, 90, 80, 105, 95, 110, 85, 100]);
+
+  // Rolling chart updater interval (2 seconds rate)
+  useEffect(() => {
+    const chartInterval = setInterval(() => {
+      setRollingData(prev => {
+        const nextVal = 60 + Math.floor(Math.random() * 65);
+        return [...prev.slice(1), nextVal];
+      });
+    }, 2000);
+    return () => clearInterval(chartInterval);
+  }, []);
+
+  const generatePathD = (data) => {
+    const width = 400;
+    const height = 150;
+    const stepX = width / (data.length - 1);
+    
+    return data.map((val, idx) => {
+      const x = idx * stepX;
+      const y = height - val;
+      return `${idx === 0 ? 'M' : 'L'} ${x} ${y}`;
+    }).join(' ');
+  };
+
+  // Formatted Security Audit report exporter
+  const handleExportReport = () => {
+    const timestamp = new Date().toISOString();
+    
+    let report = `======================================================================
+VCS SECURE CLOUD STORAGE SECURITY AUDIT REPORT
+Generated: ${new Date().toLocaleString()}
+System Status: SECURE (FIPS 140-3 Compliance Mode active)
+Integrity Verification: SHA-256 Hash Audited
+======================================================================
+
+I. OVERALL SYSTEM METRICS SUMMARY
+----------------------------------------------------------------------
+- Storage Deduplication Savings: 63.4% Saved
+- Virtualization Nodes: 2 / 3 Hypervisors Running
+- Edge proxy WAF/IPS block rate: 100% (3 Intrusion Probes Mitigated)
+- KMS key envelope rotation state: ENABLED (KEK/DEK wrapping)
+- Emergency Lockdown Protocol status: ${lockdown ? 'ENGAGED / ACTIVE LOCKDOWN' : 'DEACTIVATED / NORMAL RUN'}
+
+II. HOST VIRTUALIZATION STATUS
+----------------------------------------------------------------------
+- Node Web-Server-01: RUNNING (10.0.1.15) - Type-1 Hypervisor Isolation
+- Node Database-Secure-02: RUNNING (10.0.2.22) - Type-1 Hypervisor Isolation
+- Node Sandbox-Analyzer-03: STOPPED (10.0.3.50) - Sandbox Network Isolation
+
+III. SECURE AUDIT LEDGER LOGS (Latest 50 entries)
+----------------------------------------------------------------------
+`;
+    
+    logs.forEach(l => {
+      report += `[${l.timestamp}] [${l.type.toUpperCase()}] ${l.message}\n`;
+    });
+    
+    report += `\n======================================================================
+END OF REPORT // SECURITY HYPERVISOR AUTOMATED AUDIT LEDGER RECEIPT
+======================================================================`;
+    
+    const blob = new Blob([report], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `VCS_Security_Report_${Date.now()}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+    
+    addLog('System: Exported complete security audit report to local client storage.', 'success');
+  };
 
   // 2FA TOTP Countdown Loop
   useEffect(() => {
@@ -699,6 +773,13 @@ export default function App() {
                     </div>
                   ))}
                 </div>
+                <button 
+                  className="cyber-btn btn-green" 
+                  style={{ width: '100%', padding: '0.45rem', fontSize: '0.75rem', marginTop: '0.75rem', justifyContent: 'center' }}
+                  onClick={handleExportReport}
+                >
+                  <Download style={{ width: '12px', height: '12px' }} /> Export Audit Report
+                </button>
               </div>
 
             </aside>
@@ -888,12 +969,21 @@ export default function App() {
                           
                           {/* Chart Path 1: Normal Encrypted Data Upload */}
                           <path 
-                            d="M 0 110 Q 50 120, 100 80 T 200 95 T 300 70 T 400 65" 
+                            d={generatePathD(rollingData)} 
                             fill="none" 
                             stroke="var(--neon-green)" 
                             strokeWidth="3"
                             strokeLinecap="round" 
-                            style={{ filter: 'drop-shadow(0px 0px 4px var(--neon-green-glow))' }}
+                            style={{ filter: 'drop-shadow(0px 0px 4px var(--neon-green-glow))', transition: 'd 0.5s ease-in-out' }}
+                          />
+                          
+                          {/* Pulsing outline circle at the end of the line chart */}
+                          <circle 
+                            cx="400" 
+                            cy={150 - rollingData[rollingData.length - 1]} 
+                            r="5" 
+                            fill="var(--neon-green)" 
+                            style={{ filter: 'drop-shadow(0px 0px 6px var(--neon-green-glow))' }} 
                           />
 
                           {/* Chart Path 2: Threat Probe Ingress (low peaks, blocked) */}
@@ -943,6 +1033,14 @@ export default function App() {
                           onClick={() => addLog('IDS: Triggering internal VPC ports scan check...', 'info')}
                         >
                           <Terminal style={{ width: '14px', height: '14px' }} /> Scan Network Vulnerabilities
+                        </button>
+
+                        <button 
+                          className="cyber-btn btn-green" 
+                          style={{ justifyContent: 'center' }} 
+                          onClick={handleExportReport}
+                        >
+                          <Download style={{ width: '14px', height: '14px' }} /> Export Security Audit Report
                         </button>
 
                         <div style={{ marginTop: '0.5rem', border: '1px dashed rgba(168, 85, 247, 0.15)', padding: '0.5rem', borderRadius: '4px', fontSize: '0.7rem', color: 'var(--text-muted)', display: 'flex', gap: '0.25rem', alignItems: 'center' }}>
