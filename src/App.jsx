@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Shield, Lock, Unlock, Database, Cpu, Terminal, LayoutDashboard, Settings, AlertTriangle, AlertOctagon, HelpCircle, CheckCircle2, UserPlus, Key, QrCode, Play, ChevronRight, X, Eye, EyeOff, Download } from 'lucide-react';
+import { Shield, Lock, Unlock, Database, Cpu, Terminal, LayoutDashboard, Settings, AlertTriangle, AlertOctagon, HelpCircle, CheckCircle2, UserPlus, Key, QrCode, Play, ChevronRight, X, Eye, EyeOff, Download, Sparkles, FileText, Presentation } from 'lucide-react';
 import CryptoLab from './components/CryptoLab';
 import VirtualizationConsole from './components/VirtualizationConsole';
 import BackupManager from './components/BackupManager';
 import IAMConsole from './components/IAMConsole';
+import AICopilot from './components/AICopilot';
 
 export default function App() {
   const [eyeCare, setEyeCare] = useState(false);
@@ -55,8 +56,19 @@ export default function App() {
   const [metricVmsRunning, setMetricVmsRunning] = useState(2);
 
   // Guided Walkthrough Tour State
-  const [tourStep, setTourStep] = useState(0); // 0 = inactive, 1..5 = active steps
+  const [tourStep, setTourStep] = useState(0); // 0 = inactive, 1..6 = active steps
   const [tourCompleted, setTourCompleted] = useState(false);
+
+  // Lifted virtualization & permissions states for unified AI context
+  const [customPerms, setCustomPerms] = useState([
+    's3:PutObject', 's3:GetObject', 'kms:Encrypt', 'kms:GenerateKey', 'ec2:StartInstances'
+  ]);
+
+  const [vms, setVms] = useState([
+    { id: 'vm-1', name: 'Web-Server-01', status: 'running', isolation: 'Type-1 Hypervisor', cpu: 2, ram: 4, firewall: 'Strict', portScanBlock: true, cpuUsage: 12, ramUsage: 45, ip: '10.0.1.15', sandboxed: false },
+    { id: 'vm-2', name: 'Database-Secure-02', status: 'running', isolation: 'Type-1 Hypervisor', cpu: 4, ram: 8, firewall: 'Intransigent', portScanBlock: true, cpuUsage: 8, ramUsage: 30, ip: '10.0.2.22', sandboxed: false },
+    { id: 'vm-3', name: 'Sandbox-Analyzer-03', status: 'stopped', isolation: 'Hardware Sandbox', cpu: 1, ram: 2, firewall: 'Isolated', portScanBlock: true, cpuUsage: 0, ramUsage: 0, ip: '10.0.3.50', sandboxed: true }
+  ]);
 
   // Real-time rolling chart telemetry state
   const [rollingData, setRollingData] = useState([85, 95, 70, 90, 80, 105, 95, 110, 85, 100]);
@@ -287,10 +299,417 @@ END OF REPORT // SECURITY HYPERVISOR AUTOMATED AUDIT LEDGER RECEIPT
       addLog('!!! EMERGENCY SHUTDOWN COMMAND REJECTED/EXECUTED !!!', 'error');
       addLog('Security Hypervisor: Isolating all VPC subnets. Revoking all access credentials. Toggling all VMs to safe-state...', 'error');
       setMetricVmsRunning(0);
+      setVms(prev => prev.map(vm => ({ ...vm, status: 'stopped', sandboxed: true })));
+      setCustomPerms([]); // Revoke all permissions
     } else {
       addLog('Emergency Lockdown deactivated. Re-establishing VPC network routing...', 'success');
       setMetricVmsRunning(2);
+      setVms(prev => prev.map((vm, idx) => ({ ...vm, status: idx === 2 ? 'stopped' : 'running', sandboxed: idx === 2 })));
+      setCustomPerms(['s3:PutObject', 's3:GetObject', 'kms:Encrypt', 'kms:GenerateKey', 'ec2:StartInstances']); // restore default operations
     }
+  };
+
+  // Export Pitch Deck Presentation in PPT format
+  const handleExportPresentation = () => {
+    const htmlContent = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>VCS Cloud Security Pitch Deck</title>
+  <style>
+    body {
+      background: #0b071e;
+      color: #e2e8f0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+    .slide-container {
+      width: 800px;
+      height: 500px;
+      background: rgba(18, 12, 36, 0.7);
+      border: 2px solid #a855f7;
+      box-shadow: 0 0 30px rgba(168, 85, 247, 0.4);
+      border-radius: 12px;
+      padding: 3rem;
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      box-sizing: border-box;
+      position: relative;
+    }
+    .slide-container.active {
+      display: flex;
+    }
+    h1 {
+      color: #67e8f9;
+      font-size: 2.2rem;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 0.5rem;
+      margin-top: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    p, li {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: #cbd5e1;
+    }
+    ul {
+      margin: 1rem 0;
+      padding-left: 1.5rem;
+    }
+    li {
+      margin-bottom: 0.75rem;
+    }
+    .accent {
+      color: #fbbf24;
+      font-weight: bold;
+    }
+    .green {
+      color: #34d399;
+      font-weight: bold;
+    }
+    .controls {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      z-index: 100;
+    }
+    .btn {
+      background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      transition: all 0.2s ease;
+    }
+    .btn:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+      box-shadow: 0 0 15px rgba(168, 85, 247, 0.5);
+    }
+    .slide-num {
+      position: absolute;
+      bottom: 2rem;
+      right: 3rem;
+      font-family: monospace;
+      color: #64748b;
+    }
+    .footer-brand {
+      color: #a855f7;
+      font-size: 0.8rem;
+      font-family: monospace;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Slide 1: Cover -->
+  <div class="slide-container active" id="slide-1">
+    <div>
+      <span class="footer-brand">// CAPSTONE PITCH DECK PRESENTATION</span>
+      <h1 style="font-size: 2.8rem; margin-top: 1rem; color: #a855f7;">VCS Secure Cloud Storage</h1>
+      <p style="font-size: 1.3rem;">Next-Gen Client-Side Encryption, scheduled backups, virtualization management, and automated KMS key rotation controls.</p>
+      <p>Prepared for: <span class="accent">Academic Evaluation Board</span></p>
+    </div>
+    <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+      <span class="accent">CONFIDENTIAL // FIPS 140-3 COMPLIANT</span>
+      <span class="slide-num">Slide 1 / 5</span>
+    </div>
+  </div>
+
+  <!-- Slide 2: Problem Statement -->
+  <div class="slide-container" id="slide-2">
+    <div>
+      <span class="footer-brand">// CORE SECURITY THREATS</span>
+      <h1>The Vulnerability Problem</h1>
+      <ul>
+        <li><span class="accent">Server-Side Decryption Risks</span>: Standard cloud storage exposes raw decryption keys in host memory.</li>
+        <li><span class="accent">Privilege Escalation</span>: Insufficient IAM policy bounds allow operational access expansion.</li>
+        <li><span class="accent">Ransomware Deletion</span>: Lack of immutable WORM policies enables hostile backup erasure.</li>
+      </ul>
+    </div>
+    <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+      <span class="accent">VCS solves this by enforcing 100% browser-side encryption.</span>
+      <span class="slide-num">Slide 2 / 5</span>
+    </div>
+  </div>
+
+  <!-- Slide 3: Cryptographic Architecture -->
+  <div class="slide-container" id="slide-3">
+    <div>
+      <span class="footer-brand">// CRYPTOGRAPHY SUB-SYSTEM</span>
+      <h1>Zero-Knowledge Architecture</h1>
+      <ul>
+        <li><span class="green">AES-256-GCM Encryption</span>: Files are encrypted locally inside the browser before S3 transit.</li>
+        <li><span class="green">PBKDF2 Key Derivation</span>: 100,000 iterations derive secure keys from client passwords.</li>
+        <li><span class="green">SHA-256 Integrity Verification</span>: Generates unique hash digests to verify payload integrity during storage lifecycle.</li>
+      </ul>
+    </div>
+    <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+      <span class="accent">Keys are never sent to the network. Zero trust design.</span>
+      <span class="slide-num">Slide 3 / 5</span>
+    </div>
+  </div>
+
+  <!-- Slide 4: IAM & Key Rotation -->
+  <div class="slide-container" id="slide-4">
+    <div>
+      <span class="footer-brand">// COMPLIANCE & ACCESS CONTROL</span>
+      <h1>Envelope Key Rotation (KMS)</h1>
+      <ul>
+        <li><span class="green">Envelope Encryption</span>: Key Encryption Keys (KEK) wrap and isolate local Data Keys (DEK).</li>
+        <li><span class="green">Automatic Key Rotation</span>: Dynamic rotation sequence shifts multi-region key rings and updates DEK wraps.</li>
+        <li><span class="green">Programmatic Revocation</span>: One-click suspension of API access keys to contain potential intrusions.</li>
+      </ul>
+    </div>
+    <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+      <span class="accent">Active compliance dashboard visually monitors rotation logs.</span>
+      <span class="slide-num">Slide 4 / 5</span>
+    </div>
+  </div>
+
+  <!-- Slide 5: Virtualization & Intrusion -->
+  <div class="slide-container" id="slide-5">
+    <div>
+      <span class="footer-brand">// INFRASTRUCTURE SECURITY</span>
+      <h1>Isolated Hypervisors & WAF</h1>
+      <ul>
+        <li><span class="green">Type-1 Hypervisor VM Manager</span>: Complete physical and memory boundaries between subnets.</li>
+        <li><span class="green">WAF & IDS Simulator</span>: Rate-limits and mitigates DDoS, SQL Injection, and Port Scans.</li>
+        <li><span class="green">One-Click Lockdown</span>: Instantly terminates subnets, stops VMs, and revokes all active API credentials.</li>
+      </ul>
+    </div>
+    <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+      <span class="accent">Full real-time telemetry line charts display network performance.</span>
+      <span class="slide-num">Slide 5 / 5</span>
+    </div>
+  </div>
+
+  <!-- Navigation controls -->
+  <div class="controls">
+    <button class="btn" onclick="prevSlide()">Previous</button>
+    <button class="btn" onclick="nextSlide()">Next</button>
+  </div>
+
+  <script>
+    let currentSlide = 1;
+    const totalSlides = 5;
+
+    function showSlide(num) {
+      document.querySelectorAll('.slide-container').forEach(el => el.classList.remove('active'));
+      document.getElementById('slide-' + num).classList.add('active');
+    }
+
+    function nextSlide() {
+      currentSlide = currentSlide < totalSlides ? currentSlide + 1 : 1;
+      showSlide(currentSlide);
+    }
+
+    function prevSlide() {
+      currentSlide = currentSlide > 1 ? currentSlide - 1 : totalSlides;
+      showSlide(currentSlide);
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+      if (e.key === 'ArrowLeft') prevSlide();
+    });
+  </script>
+</body>
+</html>`;
+
+    const blob = new Blob([htmlContent], { type: 'application/vnd.ms-powerpoint;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `VCS_Security_Pitch_Deck.ppt`;
+    a.click();
+    URL.revokeObjectURL(url);
+    addLog('System: Exported pitch presentation slide deck (VCS_Security_Pitch_Deck.ppt).', 'success');
+  };
+
+  // Export Report in Word (.doc) format
+  const handleExportWordReport = () => {
+    const wordContent = `<!DOCTYPE html>
+<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+<head>
+  <meta charset="utf-8">
+  <title>VCS Security & Compliance Audit Report</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      color: #333333;
+      line-height: 1.5;
+      padding: 20px;
+    }
+    h1 {
+      color: #4f46e5;
+      font-size: 24px;
+      border-bottom: 2px solid #4f46e5;
+      padding-bottom: 5px;
+      text-transform: uppercase;
+    }
+    h2 {
+      color: #7c3aed;
+      font-size: 18px;
+      margin-top: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #dddddd;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f3f4f6;
+      color: #4f46e5;
+      font-weight: bold;
+    }
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: bold;
+      color: white;
+    }
+    .badge-green { background-color: #10b981; }
+    .badge-red { background-color: #ef4444; }
+    .badge-gold { background-color: #f59e0b; }
+    .footer {
+      margin-top: 40px;
+      font-size: 12px;
+      color: #777777;
+      text-align: center;
+      border-top: 1px solid #dddddd;
+      padding-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>VCS Security & Compliance Audit Report</h1>
+  <p><strong>Date Generated:</strong> ${new Date().toLocaleString()}</p>
+  <p><strong>Compliance Target:</strong> FIPS 140-3 Cryptographic Validation</p>
+  <p><strong>System Status:</strong> <span class="badge badge-green">SECURE / ACTIVE</span></p>
+  <p><strong>Lockdown Mode:</strong> ${lockdown ? 'ENGAGED' : 'DEACTIVATED'}</p>
+
+  <h2>1. Executive Summary</h2>
+  <p>This report documents the security baseline, cryptographic boundary, identity management matrix, and virtual isolation interfaces for the VCS cloud-based storage system. Compression and deduplication algorithms are enforced client-side, eliminating server-side key exposures.</p>
+
+  <h2>2. Virtual Compute Nodes</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Node Identifier</th>
+        <th>Network Address</th>
+        <th>Hypervisor Isolation</th>
+        <th>Execution Mode</th>
+        <th>System State</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${vms.map(vm => `
+        <tr>
+          <td><strong>${vm.name}</strong></td>
+          <td>${vm.ip}</td>
+          <td>${vm.isolation}</td>
+          <td>${vm.sandboxed ? 'Quarantined Sandbox' : 'Standard Routing'}</td>
+          <td><span class="badge ${vm.status === 'running' ? 'badge-green' : 'badge-red'}">${vm.status.toUpperCase()}</span></td>
+        </tr>
+      `).join('')}
+    </tbody>
+  </table>
+
+  <h2>3. Cryptographic Settings</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Cryptographic Protocol</th>
+        <th>Algorithm Bounds</th>
+        <th>Key Space</th>
+        <th>Validation Authority</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Symmetric Data Protection</td>
+        <td>AES-GCM (Galois/Counter Mode)</td>
+        <td>256-bit Key Length</td>
+        <td>FIPS 140-3 Compliant</td>
+      </tr>
+      <tr>
+        <td>Symmetric Key Derivation</td>
+        <td>PBKDF2-HMAC-SHA256</td>
+        <td>100,000 Iterations</td>
+        <td>Approved KDF Standards</td>
+      </tr>
+      <tr>
+        <td>Envelope Wrap Protection</td>
+        <td>KMS MRK Key Rings (KEK)</td>
+        <td>AES-GCM 256 Master</td>
+        <td>Automated Rotation</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>4. Active Identity Policies</h2>
+  <p>The compiled JSON policy matrix currently authorizes the following programmatic API permissions:</p>
+  <ul>
+    ${customPerms.map(p => `<li><code>${p}</code></li>`).join('')}
+  </ul>
+
+  <h2>5. Security Incident Trail</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Timestamp</th>
+        <th>Log Level</th>
+        <th>Audit Message Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${logs.slice(0, 15).map(l => `
+        <tr>
+          <td>${l.timestamp}</td>
+           <td><span class="badge ${l.type === 'success' ? 'badge-green' : l.type === 'error' ? 'badge-red' : l.type === 'warning' ? 'badge-gold' : ''}">${l.type.toUpperCase()}</span></td>
+          <td>${l.message}</td>
+        </tr>
+      `).join('')}
+    </tbody>
+  </table>
+
+  <div class="footer">
+    SECURE CLOUD STORAGE CRYPTOGRAPHIC VERIFICATION // FIPS 140-3 COMPLIANT LEDGER RECEIPT
+  </div>
+
+</body>
+</html>`;
+
+    const blob = new Blob([wordContent], { type: 'application/msword;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `VCS_Security_Compliance_Report.doc`;
+    a.click();
+    URL.revokeObjectURL(url);
+    addLog('System: Exported compliance audit report Word doc (VCS_Security_Compliance_Report.doc).', 'success');
   };
 
   // Guided Walkthrough tour actions
@@ -308,7 +727,8 @@ END OF REPORT // SECURITY HYPERVISOR AUTOMATED AUDIT LEDGER RECEIPT
       else if (next === 3) setActiveTab('virtualization');
       else if (next === 4) setActiveTab('backups');
       else if (next === 5) setActiveTab('iam');
-      else if (next > 5) {
+      else if (next === 6) setActiveTab('aicopilot');
+      else if (next > 6) {
         setTourCompleted(true);
         addLog(`Tour Guide: User completed interactive walkthrough.`, 'success');
         return 0;
@@ -409,6 +829,19 @@ END OF REPORT // SECURITY HYPERVISOR AUTOMATED AUDIT LEDGER RECEIPT
             <X style={{ width: '14px', height: '14px', cursor: 'pointer' }} onClick={cancelTour} />
           </div>
           <p style={{ color: 'var(--text-secondary)', marginBottom: '0.75rem' }}>Review identity matrices. As actions are checked, a dynamic JSON cloud policy compiles in real-time. Programmatic access keys can also be issued or revoked.</p>
+          <button className="cyber-btn btn-green" style={{ padding: '0.25rem 0.5rem', fontSize: '0.75rem', float: 'right' }} onClick={nextTourStep}>
+            Next <ChevronRight style={{ width: '12px', height: '12px' }} />
+          </button>
+        </div>
+      )}
+
+      {tourStep === 6 && (
+        <div className="tour-tooltip" style={{ top: '290px', left: '480px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+            <strong style={{ color: 'var(--neon-cyan)' }}>6. AI Security Copilot</strong>
+            <X style={{ width: '14px', height: '14px', cursor: 'pointer' }} onClick={cancelTour} />
+          </div>
+          <p style={{ color: 'var(--text-secondary)', marginBottom: '0.75rem' }}>Audit your active security posture. Connects to real-time Gemini LLM advice or triggers local heuristics scans across all VM subnets and credentials.</p>
           <button className="cyber-btn btn-green" style={{ padding: '0.25rem 0.5rem', fontSize: '0.75rem', float: 'right' }} onClick={nextTourStep}>
             Finish <CheckCircle2 style={{ width: '12px', height: '12px' }} />
           </button>
@@ -758,6 +1191,14 @@ END OF REPORT // SECURITY HYPERVISOR AUTOMATED AUDIT LEDGER RECEIPT
                 >
                   <Shield style={{ width: '16px', height: '16px' }} /> IAM ACCESS ENGINE
                 </button>
+
+                <button 
+                  className={`cyber-btn ${activeTab === 'aicopilot' ? 'btn-green' : ''} ${tourStep === 6 ? 'tour-highlight' : ''}`}
+                  style={{ width: '100%', justifyContent: 'flex-start', border: activeTab === 'aicopilot' ? '' : '1px solid transparent', background: activeTab === 'aicopilot' ? 'rgba(99, 102, 241, 0.1)' : 'transparent', padding: '0.6rem 0.85rem', fontSize: '0.85rem' }}
+                  onClick={() => setActiveTab('aicopilot')}
+                >
+                  <Sparkles style={{ width: '16px', height: '16px' }} /> AI SECURITY COPILOT
+                </button>
               </div>
 
               {/* Secure Audit Trail Feed Log on Sidebar */}
@@ -773,13 +1214,31 @@ END OF REPORT // SECURITY HYPERVISOR AUTOMATED AUDIT LEDGER RECEIPT
                     </div>
                   ))}
                 </div>
-                <button 
-                  className="cyber-btn btn-green" 
-                  style={{ width: '100%', padding: '0.45rem', fontSize: '0.75rem', marginTop: '0.75rem', justifyContent: 'center' }}
-                  onClick={handleExportReport}
-                >
-                  <Download style={{ width: '12px', height: '12px' }} /> Export Audit Report
-                </button>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', marginTop: '0.75rem' }}>
+                  <button 
+                    className="cyber-btn btn-green" 
+                    style={{ width: '100%', padding: '0.4rem', fontSize: '0.72rem', justifyContent: 'center' }}
+                    onClick={handleExportReport}
+                  >
+                    <Download style={{ width: '12px', height: '12px' }} /> Export Audit Logs (TXT)
+                  </button>
+                  <div style={{ display: 'flex', gap: '0.4rem' }}>
+                    <button 
+                       className="cyber-btn btn-gold" 
+                       style={{ flex: 1, padding: '0.4rem', fontSize: '0.72rem', justifyContent: 'center' }}
+                       onClick={handleExportWordReport}
+                     >
+                       <FileText style={{ width: '12px', height: '12px' }} /> Word Doc
+                     </button>
+                     <button 
+                       className="cyber-btn" 
+                       style={{ flex: 1, padding: '0.4rem', fontSize: '0.72rem', justifyContent: 'center' }}
+                       onClick={handleExportPresentation}
+                     >
+                       <Presentation style={{ width: '12px', height: '12px' }} /> Pitch Deck
+                     </button>
+                  </div>
+                </div>
               </div>
 
             </aside>
@@ -1035,13 +1494,31 @@ END OF REPORT // SECURITY HYPERVISOR AUTOMATED AUDIT LEDGER RECEIPT
                           <Terminal style={{ width: '14px', height: '14px' }} /> Scan Network Vulnerabilities
                         </button>
 
-                        <button 
-                          className="cyber-btn btn-green" 
-                          style={{ justifyContent: 'center' }} 
-                          onClick={handleExportReport}
-                        >
-                          <Download style={{ width: '14px', height: '14px' }} /> Export Security Audit Report
-                        </button>
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '0.5rem', marginTop: '0.25rem' }}>
+                          <button 
+                            className="cyber-btn btn-green" 
+                            style={{ justifyContent: 'center' }} 
+                            onClick={handleExportReport}
+                          >
+                            <Download style={{ width: '14px', height: '14px' }} /> Export Security Audit Logs (TXT)
+                          </button>
+                          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
+                            <button 
+                              className="cyber-btn btn-gold" 
+                              style={{ justifyContent: 'center' }} 
+                              onClick={handleExportWordReport}
+                            >
+                              <FileText style={{ width: '14px', height: '14px' }} /> Word Report (DOC)
+                            </button>
+                            <button 
+                              className="cyber-btn" 
+                              style={{ justifyContent: 'center' }} 
+                              onClick={handleExportPresentation}
+                            >
+                              <Presentation style={{ width: '14px', height: '14px' }} /> Pitch Slides (PPT)
+                            </button>
+                          </div>
+                        </div>
 
                         <div style={{ marginTop: '0.5rem', border: '1px dashed rgba(168, 85, 247, 0.15)', padding: '0.5rem', borderRadius: '4px', fontSize: '0.7rem', color: 'var(--text-muted)', display: 'flex', gap: '0.25rem', alignItems: 'center' }}>
                           <AlertTriangle style={{ width: '14px', height: '14px', color: 'var(--neon-gold)', flexShrink: 0 }} />
@@ -1073,7 +1550,12 @@ END OF REPORT // SECURITY HYPERVISOR AUTOMATED AUDIT LEDGER RECEIPT
               )}
               {activeTab === 'iam' && (
                 <div className={tourStep === 5 ? 'tour-highlight' : ''}>
-                  <IAMConsole addLog={addLog} />
+                  <IAMConsole addLog={addLog} customPerms={customPerms} setCustomPerms={setCustomPerms} />
+                </div>
+              )}
+              {activeTab === 'aicopilot' && (
+                <div className={tourStep === 6 ? 'tour-highlight' : ''}>
+                  <AICopilot addLog={addLog} activeVmList={vms} activeIamPermissions={customPerms} lockdownActive={lockdown} />
                 </div>
               )}
 

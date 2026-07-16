@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Server, Shield, Activity, Radio, AlertOctagon, Terminal, Play, Square, WifiOff, HardDrive, RefreshCw } from 'lucide-react';
 
-export default function VirtualizationConsole({ addLog }) {
-  const [vms, setVms] = useState([
-    { id: 'vm-1', name: 'Web-Server-01', status: 'running', isolation: 'Type-1 Hypervisor', cpu: 2, ram: 4, firewall: 'Strict', portScanBlock: true, cpuUsage: 12, ramUsage: 45, ip: '10.0.1.15', sandboxed: false },
-    { id: 'vm-2', name: 'Database-Secure-02', status: 'running', isolation: 'Type-1 Hypervisor', cpu: 4, ram: 8, firewall: 'Intransigent', portScanBlock: true, cpuUsage: 8, ramUsage: 30, ip: '10.0.2.22', sandboxed: false },
-    { id: 'vm-3', name: 'Sandbox-Analyzer-03', status: 'stopped', isolation: 'Hardware Sandbox', cpu: 1, ram: 2, firewall: 'Isolated', portScanBlock: true, cpuUsage: 0, ramUsage: 0, ip: '10.0.3.50', sandboxed: true }
-  ]);
+export default function VirtualizationConsole({ addLog, vms, setVms }) {
 
   const [activeAttack, setActiveAttack] = useState(null); // 'ddos', 'sqli', 'portscan'
   const [firewallStatus, setFirewallStatus] = useState('active'); // 'active', 'blocking', 'ddos-mitigation'

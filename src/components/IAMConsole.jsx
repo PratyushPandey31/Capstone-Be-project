@@ -38,9 +38,8 @@ const ALL_PERMISSIONS = [
   { action: 'ec2:StopInstances', service: 'Compute (EC2)', desc: 'Power down virtualization nodes' },
 ];
 
-export default function IAMConsole({ addLog }) {
+export default function IAMConsole({ addLog, customPerms, setCustomPerms }) {
   const [selectedRole, setSelectedRole] = useState('BackupOperator');
-  const [customPerms, setCustomPerms] = useState([...PRESETS.BackupOperator.permissions]);
   const [policyJson, setPolicyJson] = useState('');
   
   // Credentials simulator
