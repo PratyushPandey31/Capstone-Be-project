@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Shield, Key, Eye, EyeOff, Plus, Ban, CheckCircle2, ShieldAlert, Terminal, Copy } from 'lucide-react';
+import { Shield, Key, Eye, EyeOff, Plus, Ban, CheckCircle2, ShieldAlert, Terminal, Copy, RefreshCw } from 'lucide-react';
 
 const PRESETS = {
   Admin: {
@@ -48,6 +48,24 @@ export default function IAMConsole({ addLog }) {
     { accessKey: 'AKIAUX27B1C88910AB1F', secretKey: 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYzEXAMPLEKEY', role: 'BackupOperator', status: 'Active', created: '2026-07-16 20:30:10', showSecret: false },
     { accessKey: 'AKIAUX55F8A123049F8C', secretKey: '8d2aF919xHj20La9M18zPq01Bxl0A9EXAMPLEKEY', role: 'Admin', status: 'Active', created: '2026-07-16 21:10:00', showSecret: false }
   ]);
+
+  // KMS Master Key Rotation states
+  const [kmsKeyId, setKmsKeyId] = useState('mrk-a8f9-231a-bc01-9f20e4b85');
+  const [rotateCount, setRotateCount] = useState(1);
+  const [isRotating, setIsRotating] = useState(false);
+
+  const triggerKmsRotation = async () => {
+    setIsRotating(true);
+    addLog(`KMS Engine: Triggering manual rotation of Multi-Region Key (MRK) ${kmsKeyId.substring(0, 10)}...`, 'warning');
+    await new Promise(r => setTimeout(r, 1500));
+    const randomHex = Array.from(window.crypto.getRandomValues(new Uint8Array(8))).map(b => b.toString(16).padStart(2, '0')).join('');
+    const newKeyId = `mrk-${randomHex.substring(0,4)}-${randomHex.substring(4,8)}-bc01-9f20e4b85`;
+    setKmsKeyId(newKeyId);
+    setRotateCount(c => c + 1);
+    setIsRotating(false);
+    addLog(`KMS Engine: Master Key Rotated successfully. New ARN: arn:aws:kms:us-east-1:123456789012:key/${newKeyId}`, 'success');
+    addLog(`Envelope Encryption: Re-encrypting Data Encryption Keys (DEKs) with new Master Key.`, 'info');
+  };
 
   // Sync preset to custom permissions
   const handleRolePresetChange = (role) => {
@@ -151,8 +169,11 @@ export default function IAMConsole({ addLog }) {
   return (
     <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '2rem' }}>
       
-      {/* Policy Generator Console */}
-      <div className="glass-panel" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+      {/* Left Column containing Policy Generator & KMS Key Rotation */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+        
+        {/* Policy Generator Console */}
+        <div className="glass-panel" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
         <h2 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem', marginBottom: '0.25rem' }}>
           <Shield className="status-dot cyan" style={{ width: '20px', height: '20px', background: 'none', boxShadow: 'none' }} />
           Identity and Access Management (IAM) Engine
@@ -214,6 +235,76 @@ export default function IAMConsole({ addLog }) {
                 </label>
               );
             })}
+          </div>
+        </div>
+
+      </div>
+
+      {/* KMS Key Management & Envelope Encryption */}
+        <div className="glass-panel" style={{ display: 'flex', flexDirection: 'column', gap: '1rem', position: 'relative', overflow: 'hidden' }}>
+          {isRotating && <div className="laser-scanner"></div>}
+          <h2 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem', marginBottom: '0.25rem' }}>
+            <RefreshCw className={`status-dot cyan ${isRotating ? 'rotate-cw' : ''}`} style={{ width: '16px', height: '16px', background: 'none', boxShadow: 'none' }} />
+            KMS Key Management & Envelope Encryption (Key Rotation)
+          </h2>
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '1.5rem', alignItems: 'center' }}>
+            
+            {/* Left side details */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', fontSize: '0.85rem' }}>
+              <div>
+                <span style={{ color: 'var(--text-secondary)' }}>Active KMS Master Key (KEK):</span>
+                <div className="key-value-label" style={{ marginTop: '2px', color: 'var(--neon-gold)', fontSize: '0.75rem' }}>
+                  arn:aws:kms:us-east-1:1234:key/{kmsKeyId}
+                </div>
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
+                <div>KEY STATUS: <span className="cyber-badge green">ENABLED</span></div>
+                <div>ROTATIONS: <span className="cyber-badge cyan">{rotateCount} times</span></div>
+              </div>
+
+              <button 
+                type="button" 
+                className="cyber-btn btn-gold" 
+                style={{ width: '100%', padding: '0.5rem', fontSize: '0.8rem', justifyContent: 'center' }} 
+                onClick={triggerKmsRotation} 
+                disabled={isRotating}
+              >
+                <RefreshCw style={{ width: '14px', height: '14px', animation: isRotating ? 'spin 1s linear infinite' : 'none' }} /> Rotate Key Ring (KEK)
+              </button>
+            </div>
+
+            {/* Right side Envelope Encryption visual diagram */}
+            <div style={{ background: 'rgba(0,0,0,0.3)', border: '1px solid var(--border-color)', borderRadius: '6px', padding: '0.5rem', textAlign: 'center', position: 'relative', height: '130px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+              <span style={{ fontSize: '0.65rem', color: 'var(--text-secondary)', textTransform: 'uppercase', marginBottom: '0.5rem', display: 'block', fontFamily: 'var(--font-mono)' }}>Envelope Wrapping</span>
+              
+              <svg width="80" height="80" viewBox="0 0 100 100" style={{ display: 'block', margin: '0 auto' }}>
+                {/* Rotating KEK Ring */}
+                <circle cx="50" cy="50" r="40" fill="none" stroke="var(--neon-cyan)" strokeWidth="1.5" strokeDasharray="10 5" className="rotate-cw" style={{ animationDuration: isRotating ? '1s' : '15s' }} />
+                {/* Dotted KEK protection */}
+                <circle cx="50" cy="50" r="30" fill="none" stroke="var(--neon-gold)" strokeWidth="1" strokeDasharray="4 4" className="rotate-ccw" />
+                
+                {/* KEK Key center (Master Key) */}
+                <rect x="42" y="15" width="16" height="12" rx="2" fill="#120c24" stroke="var(--neon-cyan)" strokeWidth="1.5" />
+                <text x="50" y="23" textAnchor="middle" fill="var(--neon-cyan)" fontSize="6" fontFamily="var(--font-mono)" fontWeight="bold">KEK</text>
+                
+                {/* Inner Data Key (DEK) */}
+                <rect x="42" y="44" width="16" height="12" rx="2" fill="#120c24" stroke="var(--neon-gold)" strokeWidth="1.5" />
+                <text x="50" y="52" textAnchor="middle" fill="var(--neon-gold)" fontSize="6" fontFamily="var(--font-mono)" fontWeight="bold">DEK</text>
+
+                {/* Arrow KEK wraps DEK */}
+                <path d="M 50 27 L 50 43" stroke="var(--neon-cyan)" strokeWidth="1.5" fill="none" strokeDasharray="2 2" />
+
+                {/* Cloud storage block at bottom */}
+                <rect x="35" y="70" width="30" height="12" rx="2" fill="#120c24" stroke="var(--neon-green)" strokeWidth="1.5" />
+                <text x="50" y="78" textAnchor="middle" fill="var(--neon-green)" fontSize="6" fontFamily="var(--font-mono)" fontWeight="bold">PAYLOAD</text>
+
+                {/* Arrow DEK encrypts data payload */}
+                <path d="M 50 56 L 50 69" stroke="var(--neon-gold)" strokeWidth="1.5" fill="none" />
+              </svg>
+            </div>
+
           </div>
         </div>
 
