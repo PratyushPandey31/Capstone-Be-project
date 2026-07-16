@@ -1,11 +1,22 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Shield, Lock, Unlock, Database, Cpu, Terminal, LayoutDashboard, Settings, AlertTriangle, AlertOctagon, HelpCircle, CheckCircle2, UserPlus, Key, QrCode, Play, ChevronRight, X } from 'lucide-react';
+import { Shield, Lock, Unlock, Database, Cpu, Terminal, LayoutDashboard, Settings, AlertTriangle, AlertOctagon, HelpCircle, CheckCircle2, UserPlus, Key, QrCode, Play, ChevronRight, X, Eye, EyeOff } from 'lucide-react';
 import CryptoLab from './components/CryptoLab';
 import VirtualizationConsole from './components/VirtualizationConsole';
 import BackupManager from './components/BackupManager';
 import IAMConsole from './components/IAMConsole';
 
 export default function App() {
+  const [eyeCare, setEyeCare] = useState(false);
+
+  // Sync eyeCare state to body class
+  useEffect(() => {
+    if (eyeCare) {
+      document.body.classList.add('eye-care-active');
+    } else {
+      document.body.classList.remove('eye-care-active');
+    }
+  }, [eyeCare]);
+
   // Authentication & 2FA State
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authMode, setAuthMode] = useState('login'); // 'login' | 'signup'
@@ -342,6 +353,15 @@ export default function App() {
                 VCS BACKUP & CRYPTO VAULT
               </h2>
               <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginTop: '0.25rem' }}>Multi-Factor Security Environment Gateway</p>
+              <button 
+                type="button" 
+                className={`cyber-btn ${eyeCare ? 'btn-gold' : ''}`} 
+                style={{ padding: '0.35rem 0.75rem', fontSize: '0.7rem', marginTop: '0.75rem' }}
+                onClick={() => setEyeCare(!eyeCare)}
+              >
+                {eyeCare ? <EyeOff style={{ width: '12px', height: '12px' }} /> : <Eye style={{ width: '12px', height: '12px' }} />}
+                {eyeCare ? 'Retina Shield: Active' : 'Enable Retina Shield'}
+              </button>
             </div>
 
             {/* ERROR HANDLERS */}
@@ -574,6 +594,16 @@ export default function App() {
                 <span style={{ color: 'var(--text-secondary)' }}>FIPS 140-3 Mode:</span>
                 <span className="cyber-badge cyan" style={{ fontWeight: 'bold' }}>ACTIVE</span>
               </div>
+
+              {/* Eye Care Toggle */}
+              <button 
+                className={`cyber-btn ${eyeCare ? 'btn-gold' : ''}`} 
+                style={{ padding: '0.5rem 0.85rem', fontSize: '0.75rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '0.35rem' }}
+                onClick={() => { setEyeCare(!eyeCare); addLog(`Eye Protection: Set low-blue-light filters to ${!eyeCare ? 'ACTIVE' : 'INACTIVE'}`, 'info'); }}
+              >
+                {eyeCare ? <EyeOff style={{ width: '14px', height: '14px' }} /> : <Eye style={{ width: '14px', height: '14px' }} />}
+                {eyeCare ? 'EYE CARE: ON' : 'EYE CARE: OFF'}
+              </button>
 
               {/* Tour Guide Trigger */}
               <button 
