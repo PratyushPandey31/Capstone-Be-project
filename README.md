@@ -1,81 +1,78 @@
-# 🛡️ Secure Cloud Data Backup, Encryption & Virtualization Console
+# 🛡️ VCS Secure Cloud Backup & Virtualization Console
 
-🚀 **Live Production Deployment**: [https://pratyush-secure-backup.vercel.app](https://pratyush-secure-backup.vercel.app)
+🚀 **Production Live Deployment URL**: **[https://pratyush-secure-backup.vercel.app](https://pratyush-secure-backup.vercel.app)**
 
-[![Security Compliance](https://img.shields.io/badge/Security-FIPS%20140--3%20Verified-blueviolet?style=for-the-badge&logo=shield)](https://github.com/)
-[![License](https://img.shields.io/badge/License-MIT-purple?style=for-the-badge)](https://github.com/)
-[![React](https://img.shields.io/badge/Frontend-React%20%2B%20Vite-61DAFB?style=for-the-badge&logo=react)](https://github.com/)
-[![Web Crypto API](https://img.shields.io/badge/Cryptography-Web%20Crypto%20API-39ff14?style=for-the-badge)](https://github.com/)
+[![FIPS 140-3 Compliant](https://img.shields.io/badge/Security-FIPS%20140--3%20Verified-blueviolet?style=for-the-badge&logo=shield)](https://github.com/)
+[![React 18](https://img.shields.io/badge/Frontend-React%2018%20%2B%20Vite-61DAFB?style=for-the-badge&logo=react)](https://github.com/)
+[![Cryptography](https://img.shields.io/badge/Algorithms-AES--256--GCM%20%7C%20PBKDF2-39ff14?style=for-the-badge)](https://github.com/)
+[![Vercel Status](https://img.shields.io/badge/Hosting-Vercel%20Production-000000?style=for-the-badge&logo=vercel)](https://github.com/)
 
-An interactive, high-fidelity security dashboard designed to demonstrate enterprise-grade cloud data backup configurations, client-side cryptographic vaults, role-based access controls (RBAC), and virtual network intrusion mitigations. Built with a premium, responsive deep-space violet glassmorphism interface.
-
----
-
-## 🚀 Key Architectural Modules
-
-### 1. Multi-Factor Authentication Gateway
-* **Client-Side Hashing**: User credentials are validated using cryptographic hashing (SHA-256) prior to session verification.
-* **Password Strength Entropy Meter**: Evaluates character diversity, length, and entropy requirements in real-time.
-* **2FA TOTP Simulator**: Generates rolling 6-digit tokens (Time-based One-Time Passwords) with a 30-second decay timer and mock QR code integration.
-
-### 2. Client-Side Cryptographic Vault
-* **AES-256-GCM Core Encryption**: Runs real, high-performance symmetric file encryption inside the browser utilizing standard `SubtleCrypto` APIs.
-* **PBKDF2 Key Derivation**: Derives 256-bit keys using PBKDF2-HMAC-SHA256 with 100,000 iterations and random salts to prevent brute-force attacks.
-* **SHA-256 Integrity Verification**: Generates payload hashes during upload and checks them post-decryption to enforce end-to-end data integrity.
-
-### 3. Virtualization & WAF Network Topology
-* **Hypervisor Node Management**: Spin up/down VM instances. Configure strict Type-1 bare-metal hypervisor isolation versus container level virtualizations.
-* **SVG Packet Ingress Visualizer**: Renders active traffic flows from local internet gateways through rate-limiting WAF proxies and load balancers to secure DB segments.
-* **IDS/IPS Threat Simulator**: Launch and mitigate simulated real-time attacks including DDoS floods, SQL injections, and Port Scan probes.
-
-### 4. Automated Backup Policy Scheduler
-* **Retention and Cron Policies**: Set automated backup cron schedules and target scopes.
-* **Compression & Deduplication Analytics**: Tracks disk space savings by comparing SHA-256 block chunk hashes and applying compression ratios.
-
-### 5. IAM Policy & Key Rotation Engine
-* **Granular Role Matrix**: Predefined roles (Admins, Operators, Auditors, Viewers) mapping granular policies.
-* **KMS Key Rotation Console**: Interactive key rotation panel visualizing envelope wrapping (KEK protecting DEK) with contra-rotating animations.
-* **JSON Policy Generator**: Compiles cloud-compliant IAM JSON policy statements reflecting checked permissions on the fly.
-* **Credentials Manager**: Issues API access credentials with instant revocation switches.
-
-### 6. Security Audit Exporter & Telemetry
-* **Real-Time Telemetry Line Chart**: Visualizes live rolling network payload throughput shifting dynamically every 2 seconds, complete with a leading pulsing locator dot indicator.
-* **Audit Report Exporter**: Instantly generates and compiles current virtualization metrics, deduplication metrics, key status, and the latest 50 logs into a formatted `.txt` security audit report.
+An interactive, high-fidelity security control center demonstrating enterprise-grade zero-knowledge cloud backups, virtual compute isolation, real-time telemetry, and AI-assisted compliance analysis. Built with a **luxury deep-space violet glassmorphism** design system.
 
 ---
 
-## 📊 System Architecture Flow
+## 🔮 Luxury Glassmorphic Design System
+
+To ensure a state-of-the-art visual aesthetic, the interface utilizes custom dark-mode tokens and neon accent colors:
+* **Glassmorphic Panels**: Styled with a translucent backdrop blur (`backdrop-filter: blur(12px)`), dark borders (`border: 1px solid rgba(255,255,255,0.06)`), and deep violet radial glows.
+* **Double Contra-Rotating Concentric Rings Logo**: The header and entrance gateways feature concentric SVG rings spinning in opposite directions (`rotate-cw` and `rotate-ccw`) around a central locked shield.
+* **Retina Shield Eye Care Filter**: Toggling the blue light shield applies a warm sepia overlay (`sepia(0.3) brightness(0.85)`), dims neon highlights, and pauses glowing grid lines to prevent eye strain.
+
+---
+
+## 🧠 AI-Powered Audit Copilot
+
+The **AI Security Copilot** card provides real-time infrastructure scans:
+1. **Gemini Live API Integration**: Input a Gemini API Key to compile active IAM JSON policies, VM lists, and quarantine logs, dispatching them to the live Gemini model (`gemini-2.5-flash`) for advice.
+2. **Local Heuristics Fallback**: Without an API key, the dashboard runs a local heuristics engine that parses active permission parameters (checking for wildcard access, ransomware risk tags, and sandboxed ports) to generate dynamic rating scores.
+3. **Animated Radar Cone**: Sweeps a radial gradient light cone across the interface during active audit cycles to indicate background analysis.
+
+---
+
+## 📊 Real-Time Telemetry & Dynamic Charts
+
+Features four distinct animated SVG charting consoles:
+* **Line Chart 1: Payload Throughput**: Renders dynamic uploads shifting every 2 seconds, filled with a semi-transparent green linear gradient and a pulsing locator dot.
+* **Line Chart 2: KMS Key Entropy**: Fluctuates key randomness in real-time, plotting entropy values up to 8.00 bits with a cyan gradient fill.
+* **Doughnut Chart: Threat Vector Mitigation**: Breaks down blocked ingress alerts (DDoS, SQL Injection, Port Scans).
+* **Bar Chart: Regional Replication Sync**: Tracks synchronization percentages across global server segments.
+
+---
+
+## 📝 Document Exporters (.doc & .ppt)
+
+Enables users to download formatted presentation slides and reports natively in the browser without server dependencies:
+* **MS Word Compliance Report (`.doc`)**: Generates structured tables documenting cryptographic boundaries, FIPS controls, VM addresses, and audit logs using a word-compatible HTML template.
+* **MS PowerPoint Pitch Deck (`.ppt`)**: Constructs an interactive, keyboard-navigable 5-slide presentation styled in violet glassmorphism detailing the Capstone project.
+
+---
+
+## 🏗️ System Architecture Flow
 
 ```mermaid
 graph TD
-    Client[Web Browser Client] -->|PBKDF2 Key Derivation| CryptoEngine[Web Crypto API Engine]
-    Client -->|Credentials Hash| AuthGateway[MFA / 2FA Authenticator]
-    AuthGateway -->|Success| Dashboard[Secure Dashboard]
+    Client[Web Browser Client] -->|Client-Side PBKDF2| Crypto[Web Crypto API subtle]
+    Client -->|SHA-256 Hashing| MFA[MFA / 2FA Challenge Gateway]
+    MFA -->|Authorized| Dash[Command Center Dashboard]
     
-    Dashboard -->|Stream Chunks| WAF[Edge WAF / IPS Proxy]
-    WAF -->|Traffic Rate Limit Check| LoadBalancer[Network Load Balancer]
+    Dash -->|Live Metrics| Chart1[Upload Telemetry Line Chart]
+    Dash -->|Key Rotation Logs| Chart2[KMS Entropy Line Chart]
     
-    LoadBalancer -->|Isolated Routing| VM1[Web Server VM - VPC Subnet]
-    LoadBalancer -->|Sandboxed Analysis| VM2[Malware Sandbox VM]
+    Dash -->|VPC Route Check| WAF[Rate Limiting WAF Proxy]
+    WAF -->|DDoS Detection| NLB[Network Load Balancer]
     
-    VM1 -->|DB Access| VM3[Secure Database VM]
-    VM3 -->|AES-256-GCM Payload| StorageVault[(Encrypted Storage Vault)]
+    NLB -->|Isolated Segment| Node1[VM 1: Web Server Segment]
+    NLB -->|Sandboxed Analysis| Node2[VM 2: Quarantine Sandbox]
+    
+    Node1 -->|AES-256-GCM Write| Backup[(AWS S3 Cryptographic Vault)]
+    Dash -->|Audit Prompt Context| AICopilot[AI Security Copilot Gemini]
 ```
 
 ---
 
-## 🛠️ Technology Stack
+## 🛠️ Installation & Execution
 
-* **Frontend Engine**: React 18, Vite
-* **Styling & Theme**: Vanilla CSS Custom Variables (Premium Violet/Indigo theme, glassmorphism, responsive grids)
-* **Iconography**: Lucide React SVGs
-* **Cryptography**: Web Crypto API (SubtleCrypto)
-
----
-
-## 💻 Quick Installation & Execution
-
-To run this application locally on your system:
+To run this application locally:
 
 1. **Clone the repository**:
    ```bash
@@ -83,25 +80,18 @@ To run this application locally on your system:
    cd Capstone-Be-project
    ```
 
-2. **Install project dependencies**:
+2. **Install node dependencies**:
    ```bash
    npm install
    ```
 
-3. **Launch the local development server**:
+3. **Launch local dev server**:
    ```bash
    npm run dev
    ```
    Open `http://localhost:5173` in your web browser.
 
-4. **Compile production build**:
+4. **Verify production bundle**:
    ```bash
    npm run build
    ```
-
----
-
-## 🔒 Security Compliance Checklist
-* **FIPS 140-3**: Configured cryptographic bounds to leverage approved security standards.
-* **GDPR Compliance**: User credentials and payload keys are never transmitted to server endpoints; cryptography is performed entirely client-side.
-* **WORM Storage**: Default IAM rules deny deletion (`s3:DeleteObject`) to enforce Write-Once-Read-Many properties for backup archives.

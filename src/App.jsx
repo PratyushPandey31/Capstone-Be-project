@@ -70,14 +70,19 @@ export default function App() {
     { id: 'vm-3', name: 'Sandbox-Analyzer-03', status: 'stopped', isolation: 'Hardware Sandbox', cpu: 1, ram: 2, firewall: 'Isolated', portScanBlock: true, cpuUsage: 0, ramUsage: 0, ip: '10.0.3.50', sandboxed: true }
   ]);
 
-  // Real-time rolling chart telemetry state
+  // Real-time rolling chart telemetry states
   const [rollingData, setRollingData] = useState([85, 95, 70, 90, 80, 105, 95, 110, 85, 100]);
+  const [entropyData, setEntropyData] = useState([80, 75, 40, 45, 20, 25, 18, 15]);
 
   // Rolling chart updater interval (2 seconds rate)
   useEffect(() => {
     const chartInterval = setInterval(() => {
       setRollingData(prev => {
         const nextVal = 60 + Math.floor(Math.random() * 65);
+        return [...prev.slice(1), nextVal];
+      });
+      setEntropyData(prev => {
+        const nextVal = 15 + Math.floor(Math.random() * 55); // Fluctuate key entropy between 15 and 70
         return [...prev.slice(1), nextVal];
       });
     }, 2000);
@@ -94,6 +99,48 @@ export default function App() {
       const y = height - val;
       return `${idx === 0 ? 'M' : 'L'} ${x} ${y}`;
     }).join(' ');
+  };
+
+  const generateAreaPathD = (data) => {
+    if (data.length === 0) return '';
+    const width = 400;
+    const height = 150;
+    const stepX = width / (data.length - 1);
+    
+    const linePath = data.map((val, idx) => {
+      const x = idx * stepX;
+      const y = height - val;
+      return `L ${x} ${y}`;
+    }).join(' ');
+    
+    return `M 0 ${height} ${linePath} L ${width} ${height} Z`;
+  };
+
+  const generateEntropyPathD = (data) => {
+    const width = 200;
+    const height = 100;
+    const stepX = width / (data.length - 1);
+    
+    return data.map((val, idx) => {
+      const x = idx * stepX;
+      const y = val;
+      return `${idx === 0 ? 'M' : 'L'} ${x} ${y}`;
+    }).join(' ');
+  };
+
+  const generateEntropyAreaPathD = (data) => {
+    if (data.length === 0) return '';
+    const width = 200;
+    const height = 100;
+    const stepX = width / (data.length - 1);
+    
+    const linePath = data.map((val, idx) => {
+      const x = idx * stepX;
+      const y = val;
+      return `L ${x} ${y}`;
+    }).join(' ');
+    
+    return `M 0 ${height} ${linePath} L ${width} ${height} Z`;
   };
 
   // Formatted Security Audit report exporter
@@ -1378,28 +1425,45 @@ END OF REPORT // SECURITY HYPERVISOR AUTOMATED AUDIT LEDGER RECEIPT
                       
                       <div style={{ height: '140px', background: 'rgba(0,0,0,0.15)', border: '1px dashed var(--border-color)', borderRadius: '6px', overflow: 'hidden', display: 'flex', alignItems: 'center' }}>
                         <svg viewBox="0 0 200 100" style={{ width: '100%', height: '100%' }}>
+                          <defs>
+                            <linearGradient id="entropyChartGrad" x1="0" y1="0" x2="0" y2="1">
+                              <stop offset="0%" stopColor="var(--neon-cyan)" stopOpacity="0.3" />
+                              <stop offset="100%" stopColor="var(--neon-cyan)" stopOpacity="0.0" />
+                            </linearGradient>
+                          </defs>
+
                           {/* Grid ticks */}
                           <line x1="0" y1="20" x2="200" y2="20" stroke="rgba(255,255,255,0.02)" strokeWidth="0.5" />
                           <line x1="0" y1="50" x2="200" y2="50" stroke="rgba(255,255,255,0.02)" strokeWidth="0.5" />
                           <line x1="0" y1="80" x2="200" y2="80" stroke="rgba(255,255,255,0.02)" strokeWidth="0.5" />
                           
+                          {/* area fill */}
+                          <path 
+                            d={generateEntropyAreaPathD(entropyData)} 
+                            fill="url(#entropyChartGrad)" 
+                            style={{ transition: 'd 0.5s ease-in-out' }}
+                          />
+
                           {/* Line path */}
                           <path 
-                            d="M 0 80 L 30 75 L 60 40 L 90 45 L 120 20 L 150 25 L 180 18 L 200 15" 
+                            d={generateEntropyPathD(entropyData)} 
                             fill="none" 
                             stroke="var(--neon-cyan)" 
                             strokeWidth="2.5" 
-                          />
-                          {/* area fill */}
-                          <path 
-                            d="M 0 80 L 30 75 L 60 40 L 90 45 L 120 20 L 150 25 L 180 18 L 200 15 L 200 100 L 0 100 Z" 
-                            fill="rgba(168, 85, 247, 0.08)" 
+                            style={{ filter: 'drop-shadow(0px 0px 4px var(--neon-cyan-glow))', transition: 'd 0.5s ease-in-out' }}
                           />
                           
-                          {/* Dots */}
-                          <circle cx="120" cy="20" r="3" fill="var(--neon-green)" />
-                          <circle cx="180" cy="18" r="3" fill="var(--neon-green)" />
-                          <text x="125" y="15" fill="var(--neon-green)" fontSize="6" fontFamily="var(--font-mono)">7.99 bits</text>
+                          {/* Live indicator dot */}
+                          <circle 
+                            cx="200" 
+                            cy={entropyData[entropyData.length - 1]} 
+                            r="3" 
+                            fill="var(--neon-green)" 
+                            style={{ filter: 'drop-shadow(0px 0px 4px var(--neon-green-glow))' }} 
+                          />
+                          <text x="125" y="15" fill="var(--neon-cyan)" fontSize="6" fontFamily="var(--font-mono)">
+                            Entropy: {((100 - entropyData[entropyData.length - 1]) / 12.5).toFixed(2)} bits
+                          </text>
                         </svg>
                       </div>
                     </div>
@@ -1426,6 +1490,20 @@ END OF REPORT // SECURITY HYPERVISOR AUTOMATED AUDIT LEDGER RECEIPT
                           <line x1="0" y1="100" x2="400" y2="100" stroke="rgba(255,255,255,0.03)" strokeWidth="1" />
                           <line x1="0" y1="125" x2="400" y2="125" stroke="rgba(255,255,255,0.03)" strokeWidth="1" />
                           
+                          <defs>
+                            <linearGradient id="normalChartGrad" x1="0" y1="0" x2="0" y2="1">
+                              <stop offset="0%" stopColor="var(--neon-green)" stopOpacity="0.35" />
+                              <stop offset="100%" stopColor="var(--neon-green)" stopOpacity="0.0" />
+                            </linearGradient>
+                          </defs>
+
+                          {/* Area Gradient Fill */}
+                          <path 
+                            d={generateAreaPathD(rollingData)} 
+                            fill="url(#normalChartGrad)" 
+                            style={{ transition: 'd 0.5s ease-in-out' }}
+                          />
+
                           {/* Chart Path 1: Normal Encrypted Data Upload */}
                           <path 
                             d={generatePathD(rollingData)} 

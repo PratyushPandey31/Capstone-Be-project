@@ -137,7 +137,32 @@ ${recommendations.map(r => `- 🛡️ ${r}`).join('\n')}
     <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '2rem' }}>
       
       <div className="glass-panel" style={{ position: 'relative', overflow: 'hidden' }}>
-        {isAuditing && <div className="laser-scanner"></div>}
+        {isAuditing && (
+          <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(11, 7, 30, 0.95)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', zIndex: 10 }}>
+            <svg width="120" height="120" viewBox="0 0 100 100">
+              <defs>
+                <radialGradient id="radarSweep" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="var(--neon-cyan)" stopOpacity="0.4" />
+                  <stop offset="100%" stopColor="var(--neon-cyan)" stopOpacity="0.0" />
+                </radialGradient>
+              </defs>
+              
+              {/* Concentric radar rings */}
+              <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(103, 232, 249, 0.15)" strokeWidth="1" />
+              <circle cx="50" cy="50" r="30" fill="none" stroke="rgba(103, 232, 249, 0.1)" strokeWidth="1" />
+              <circle cx="50" cy="50" r="15" fill="none" stroke="rgba(103, 232, 249, 0.05)" strokeWidth="1" />
+              
+              {/* Sweep angle */}
+              <path d="M 50 50 L 50 5 A 45 45 0 0 1 95 50 Z" fill="url(#radarSweep)" className="rotate-cw" style={{ transformOrigin: '50px 50px', animationDuration: '2s' }} />
+              
+              {/* Pulse dot */}
+              <circle cx="50" cy="50" r="3" fill="var(--neon-cyan)" style={{ filter: 'drop-shadow(0 0 4px var(--neon-cyan))' }} />
+            </svg>
+            <div style={{ marginTop: '1.25rem', color: 'var(--neon-cyan)', fontSize: '0.8rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.15em' }} className="blink">
+              SCANNING COMPLIANCE VECTORS...
+            </div>
+          </div>
+        )}
 
         <h2 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem', marginBottom: '1.25rem' }}>
           <Sparkles className="status-dot cyan" style={{ width: '20px', height: '20px', background: 'none', boxShadow: 'none' }} />
