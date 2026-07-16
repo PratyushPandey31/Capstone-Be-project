@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import { Presentation, ChevronLeft, ChevronRight, Download, ShieldCheck, CheckCircle2, AlertTriangle } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Presentation, ChevronLeft, ChevronRight, Download, ShieldCheck, CheckCircle2, AlertTriangle, Play, Pause } from 'lucide-react';
 
 export default function PitchDeckConsole({ addLog }) {
   const [currentSlide, setCurrentSlide] = useState(1);
+  const [autoRotate, setAutoRotate] = useState(true);
   const totalSlides = 10;
 
   const handleNext = () => {
@@ -12,6 +13,15 @@ export default function PitchDeckConsole({ addLog }) {
   const handlePrev = () => {
     setCurrentSlide(prev => (prev > 1 ? prev - 1 : totalSlides));
   };
+
+  // Auto-Rotation logic (updates every 4 seconds when activated)
+  useEffect(() => {
+    if (!autoRotate) return;
+    const timer = setInterval(() => {
+      handleNext();
+    }, 4000);
+    return () => clearInterval(timer);
+  }, [autoRotate, currentSlide]);
 
   // Re-trigger .ppt downloader
   const downloadPpt = () => {
@@ -399,12 +409,27 @@ export default function PitchDeckConsole({ addLog }) {
         {/* Navigation Dots and Slide Numbers */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '2rem', borderTop: '1px solid rgba(255, 255, 255, 0.05)', paddingTop: '1rem' }}>
           {/* Navigation Controls */}
-          <div style={{ display: 'flex', gap: '0.75rem' }}>
+          <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
             <button className="cyber-btn" onClick={handlePrev} style={{ padding: '0.4rem 0.8rem', gap: '0.25rem' }}>
               <ChevronLeft style={{ width: '16px', height: '16px' }} /> Prev
             </button>
             <button className="cyber-btn" onClick={handleNext} style={{ padding: '0.4rem 0.8rem', gap: '0.25rem' }}>
               Next <ChevronRight style={{ width: '16px', height: '16px' }} />
+            </button>
+            <button 
+              className={`cyber-btn ${autoRotate ? 'btn-green' : ''}`}
+              onClick={() => setAutoRotate(!autoRotate)}
+              style={{ padding: '0.4rem 0.8rem', gap: '0.35rem', marginLeft: '0.5rem' }}
+            >
+              {autoRotate ? (
+                <>
+                  <Pause style={{ width: '12px', height: '12px', fill: 'currentColor' }} /> Pause Rotation
+                </>
+              ) : (
+                <>
+                  <Play style={{ width: '12px', height: '12px', fill: 'currentColor' }} /> Auto-Rotate
+                </>
+              )}
             </button>
           </div>
           
